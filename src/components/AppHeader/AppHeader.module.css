@@ -1,0 +1,30 @@
+@import url();
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.logo{
+    align-self: center;
+}
+.nav{
+    display: flex;
+    justify-content: space-between;
+}
+.list{
+    list-style: none;
+    display: flex;
+}
+.item{
+    margin-right: 8px;
+}
+.link{
+    padding: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.active{
+    color: white;
+}
