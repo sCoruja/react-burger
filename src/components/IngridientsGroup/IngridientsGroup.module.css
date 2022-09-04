@@ -1,0 +1,9 @@
+.heading{
+
+}
+.group{
+    display: grid;
+    max-width: 600px;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+}
