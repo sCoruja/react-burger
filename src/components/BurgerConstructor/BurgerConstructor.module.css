@@ -1,0 +1,10 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    flex-shrink: none;
+    align-items: flex-end;
+}
+.controls{
+    display: flex;
+    align-items: center;
+}
