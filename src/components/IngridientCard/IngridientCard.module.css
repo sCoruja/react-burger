@@ -2,13 +2,18 @@
 display: flex;
 flex-direction: column;
 align-items: center;
+position: relative;
 }
 .image{
 
 }
 .price{
-
+ display: flex;
+ align-items: center;
+ gap: 10px;
 }
+
 .name{
+    text-align: center;
 
 }
