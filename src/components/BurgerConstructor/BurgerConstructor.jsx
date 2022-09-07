@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingridients from "../../utils/data";
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
   return (
     <div className={constructorStyles.container}>
       <div className={constructorStyles.ingridient + " mt-4 mb-4"}>

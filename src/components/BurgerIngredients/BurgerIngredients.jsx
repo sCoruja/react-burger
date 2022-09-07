@@ -1,17 +1,13 @@
 import React from "react";
 import burgerIngriidentsStyles from "./BurgerIngredients.module.css";
-import {
-  Counter,
-  CurrencyIcon,
-  Tab,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsGroup from "../IngridientsGroup/IngridientsGroup";
-import ingridients  from "../../utils/data";
-const BurgerIngredients = (props) => {
+import ingridients from "../../utils/data";
+const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState("one");
-  const buns = ingridients.filter(item=>item.type==='bun')
-  const sauces = ingridients.filter(item=>item.type==='sauce')
-  const main = ingridients.filter(item=>item.type==='main')
+  const buns = ingridients.filter((item) => item.type === "bun");
+  const sauces = ingridients.filter((item) => item.type === "sauce");
+  const main = ingridients.filter((item) => item.type === "main");
   return (
     <div className={burgerIngriidentsStyles.container}>
       <div className={burgerIngriidentsStyles.tabs}>
