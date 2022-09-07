@@ -8,7 +8,7 @@ const IngridientsGroup = (props) => {
       <h2 className={ingridientsGroupStyles.heading}>{props.heading}</h2>
       <div className={ingridientsGroupStyles.group}>
         {props.items.map((item, index) => (
-          <IngridientCard data={item} key={index} />
+          <IngridientCard data={item} key={item._id} />
         ))}
       </div>
     </div>
