@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.image{
+    
+}
+.nutrions{
+    display: flex;
+    gap: 20px;
+}
+.nutrion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
