@@ -1,13 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import burgerIngriidentsStyles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsGroup from "../IngridientsGroup/IngridientsGroup";
-import ingridients from "../../utils/data";
-const BurgerIngredients = () => {
+const BurgerIngredients = (props) => {
   const [current, setCurrent] = React.useState("one");
-  const buns = ingridients.filter((item) => item.type === "bun");
-  const sauces = ingridients.filter((item) => item.type === "sauce");
-  const main = ingridients.filter((item) => item.type === "main");
+  console.log(props);
+  const buns = props.ingridients.filter((item) => item.type === "bun");
+  const sauces = props.ingridients.filter((item) => item.type === "sauce");
+  const main = props.ingridients.filter((item) => item.type === "main");
   return (
     <div className={burgerIngriidentsStyles.container}>
       <div className={burgerIngriidentsStyles.tabs}>
@@ -28,5 +29,9 @@ const BurgerIngredients = () => {
       </div>
     </div>
   );
+};
+
+BurgerIngredients.propTypes = {
+  ingridients: PropTypes.array.isRequired,
 };
 export default BurgerIngredients;
