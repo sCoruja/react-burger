@@ -1,10 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingridientCardStyles from "./IngridientCard.module.css";
+import { ingridientType } from "../../utils/types";
 const IngridientCard = (props) => {
   return (
     <div className={ingridientCardStyles.card} onClick={props.onClick}>
@@ -31,10 +31,6 @@ const IngridientCard = (props) => {
   );
 };
 IngridientCard.propTypes = {
-  data: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-  }).isRequired,
+  data: PropTypes.shape(ingridientType).isRequired,
 };
 export default IngridientCard;

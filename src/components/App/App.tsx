@@ -4,10 +4,6 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import appStyles from "./App.module.css";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
-import Modal from "../Modal/Modal";
-import OrderDetails from "../OrderDetails/OrderDetails";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 function App() {
   const [ingridients, setIngridients] = React.useState();
@@ -18,10 +14,10 @@ function App() {
       .then((response) => {
         if (response.ok) 
           return response.json();
+        return Promise.reject(`Ошибка ${response.status}`);
       })
       .then((data) => {
         setIngridients(data.data);
-        console.log(ingridients);
       })
       .catch((e) => {
         console.log("Что-то пошло не так...");

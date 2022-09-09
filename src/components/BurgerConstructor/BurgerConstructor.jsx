@@ -6,7 +6,6 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import ingridients from "../../utils/data";
@@ -65,7 +64,7 @@ const BurgerConstructor = () => {
       </div>
       {modalOpened && (
         <Modal onClose={toggleModal}>
-          <OrderDetails identifier={"034536"} />
+          <OrderDetails identifier={134536} />
         </Modal>
       )}
     </>
