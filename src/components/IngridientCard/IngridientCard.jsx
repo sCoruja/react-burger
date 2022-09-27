@@ -5,14 +5,35 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingridientCardStyles from "./IngridientCard.module.css";
 import { ingridientType } from "../../utils/types";
+import { useDrag } from "react-dnd";
+import { useSelector } from "react-redux";
 const IngridientCard = (props) => {
+  const { bun, constructorItems } = useSelector((store) => store.cart);
+  const count =
+    props.data.type === "bun"
+      ? bun?._id === props.data._id
+        ? 2
+        : 0
+      : constructorItems.reduce((acc, item) => {
+          return item._id === props.data._id ? acc + 1 : acc;
+        }, 0);
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: props.data,
+  });
   return (
-    <div className={ingridientCardStyles.card} onClick={props.onClick}>
-      <Counter count={1} size="default" />
+    <div
+      className={ingridientCardStyles.card}
+      onClick={props.onClick}
+      ref={dragRef}
+      draggable
+    >
+      {count ? <Counter count={count} size="default" /> : ""}
       <img
         src={props.data.image}
         alt={props.data.name}
         className={ingridientCardStyles.image}
+        draggable={false}
       />
       <span
         className={

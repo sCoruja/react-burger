@@ -1,10 +1,55 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    flex-shrink: none;
-    align-items: flex-end;
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: none;
+  align-items: flex-end;
 }
-.controls{
-    display: flex;
-    align-items: center;
+.items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100px;
+  align-items: flex-end;
+}
+.controls {
+  display: flex;
+  align-items: center;
+}
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-right: 10px;
+  box-sizing: border-box;
+  align-items: flex-end;
+  max-height: 40vh;
+  overflow-y: auto;
+  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-width: 8px;
+}
+.bun {
+    padding-right: 15px;
+}
+.text{
+    align-self: start;
+    padding-left: 50px;
+    margin-top: 18px;
+}
+.ingridient {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  justify-content: end;
+}
+.ingridient > svg {
+    cursor: move;
+}
+.ingredients::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background: #2f2f37;
+}
+.ingredients::-webkit-scrollbar-thumb {
+  background: #8585ad;
 }

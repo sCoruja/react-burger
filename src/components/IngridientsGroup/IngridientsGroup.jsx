@@ -9,7 +9,9 @@ const IngridientsGroup = (props) => {
   return (
     <>
       <div className="mt-10">
-        <h2 className={ingridientsGroupStyles.heading}>{props.heading}</h2>
+        <h2 className={ingridientsGroupStyles.heading} ref={props.refElement}>
+          {props.heading}
+        </h2>
         <div className={ingridientsGroupStyles.group}>
           {props.items.map((item) => (
             <IngridientCard
@@ -20,7 +22,6 @@ const IngridientsGroup = (props) => {
           ))}
         </div>
       </div>
-
     </>
   );
 };
