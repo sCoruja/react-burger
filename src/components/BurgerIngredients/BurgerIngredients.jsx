@@ -42,13 +42,12 @@ const BurgerIngredients = () => {
   };
   const switchTab = (tab) => {
     dispatch({ type: SWITCH_TAB, tab });
-    refs[tab].ref.current.scrollIntoView();
+    refs[tab].ref.current.scrollIntoView({ behavior: "smooth" });
   };
   const handleScroll = (e) => {
     const rootY = rootRef.current.getBoundingClientRect().y;
     for (var key of Object.keys(refs)) {
       const y = refs[key].ref.current.getBoundingClientRect().y - rootY;
-      console.log(refs[key].ref.current.getBoundingClientRect());
       if (y > 0 && y < rootY && currentTab !== refs[key].tab) {
         dispatch({ type: SWITCH_TAB, tab: refs[key].tab });
       }
@@ -75,7 +74,9 @@ const BurgerIngredients = () => {
             Начинки
           </Tab>
         </div>
-        {ingredientsRequest ? <p>Загрузка...</p> :(
+        {ingredientsRequest ? (
+          <p>Загрузка...</p>
+        ) : (
           <div
             className={burgerIngriidentsStyles.groups}
             onScroll={handleScroll}

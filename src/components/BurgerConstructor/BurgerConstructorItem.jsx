@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import PropTypes from "prop-types";
 import constructorStyles from "./BurgerConstructor.module.css";
 import {
   ConstructorElement,
@@ -10,12 +11,13 @@ import {
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
   REPLACE_CONSTRUCTOR_ITEM,
 } from "../../services/actions/cart";
+import { ingridientType } from "../../utils/types";
 const BurgerConstructorItem = ({ item, index }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
-  const handleDelete = (index) => {
-    dispatch({ type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR, index });
+  const handleDelete = () => {
+    dispatch({ type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR, uuid: item.uuid });
   };
   const [, drag] = useDrag({
     type: "replace",
@@ -24,8 +26,6 @@ const BurgerConstructorItem = ({ item, index }) => {
   const [{ isHover }, dropRef] = useDrop({
     accept: "replace",
     drop(item) {
-      console.log(`Old: ${item.index} New: ${index}`);
-      console.log(item.index);
       dispatch({
         type: REPLACE_CONSTRUCTOR_ITEM,
         oldIndex: item.index,
@@ -53,5 +53,9 @@ const BurgerConstructorItem = ({ item, index }) => {
       />
     </div>
   );
+};
+BurgerConstructorItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  item: PropTypes.shape(ingridientType).isRequired,
 };
 export default BurgerConstructorItem;

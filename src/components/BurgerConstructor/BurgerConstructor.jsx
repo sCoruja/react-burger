@@ -21,17 +21,16 @@ const BurgerConstructor = () => {
   const { constructorItems, bun, order } = useSelector((store) => store.cart);
   const totalPrice = useMemo(() => {
     const bunPrice = bun ? bun?.price * 2 : 0;
-    return (
+    const price =
       bunPrice +
       constructorItems.reduce((acc, item) => {
         return acc + item.price;
-      }, 0)
-    );
+      }, 0);
+    return price ? price : 0;
   }, [constructorItems, bun]);
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      console.log(item);
       dispatch({ type: ADD_INGREDIENT_TO_CONSTRUCTOR, item });
     },
   });
@@ -62,7 +61,7 @@ const BurgerConstructor = () => {
                   <ConstructorElement
                     type="top"
                     isLocked={true}
-                    text={bun.name}
+                    text={bun.name + " (верх)"}
                     price={bun.price}
                     thumbnail={bun.image}
                   />
@@ -74,7 +73,7 @@ const BurgerConstructor = () => {
                     <BurgerConstructorItem
                       item={item}
                       index={index}
-                      key={item._id}
+                      key={item.uuid}
                     />
                   ))}
               </div>
@@ -83,7 +82,7 @@ const BurgerConstructor = () => {
                   <ConstructorElement
                     type="bottom"
                     isLocked={true}
-                    text={bun.name}
+                    text={bun.name + " (низ)"}
                     price={bun.price}
                     thumbnail={bun.image}
                   />
@@ -105,7 +104,7 @@ const BurgerConstructor = () => {
           <span className="price mr-10 text text_type_digits-medium">
             {totalPrice} <CurrencyIcon />
           </span>
-          <Button type="primary" size="large" onClick={handleClick}>
+          <Button type="primary" size="large" onClick={handleClick} disabled={!bun}>
             Заказать
           </Button>
         </div>
@@ -115,7 +114,7 @@ const BurgerConstructor = () => {
           {order?.order ? (
             <OrderDetails identifier={order?.order.number} />
           ) : (
-            <p>Загрузка...</p>
+            <p className="text text_type_main-default">Оформляем заказ...</p>
           )}
         </Modal>
       )}

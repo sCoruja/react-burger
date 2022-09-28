@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import ingredientDetailsStyles from "./IngredientDetails.module.css";
 
-const IngredientDetails = (props) => {
+const IngredientDetails = ({ data }) => {
   return (
     <div className={ingredientDetailsStyles.container}>
       <img
-        src={props.data.image_large}
-        alt={props.data.name}
+        src={data.image_large}
+        alt={data.name}
         className={ingredientDetailsStyles.image}
       />
       <h3
@@ -15,7 +15,7 @@ const IngredientDetails = (props) => {
           " text text_type_main-medium mt-4 mb-8"
         }
       >
-        {props.data.name}
+        {data.name}
       </h3>
       <div className={ingredientDetailsStyles.nutrions}>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -23,7 +23,7 @@ const IngredientDetails = (props) => {
             Калории,ккал
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {props.data.calories}
+            {data.calories}
           </span>
         </div>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -31,7 +31,7 @@ const IngredientDetails = (props) => {
             Белки, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {props.data.proteins}
+            {data.proteins}
           </span>
         </div>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -39,7 +39,7 @@ const IngredientDetails = (props) => {
             Жиры, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {props.data.fat}
+            {data.fat}
           </span>
         </div>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -47,7 +47,7 @@ const IngredientDetails = (props) => {
             Углеводы, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {props.data.carbohydrates}
+            {data.carbohydrates}
           </span>
         </div>
       </div>

@@ -13,6 +13,7 @@ import {
     CLEAR_ORDER,
     REPLACE_CONSTRUCTOR_ITEM
 } from "../actions/cart";
+import { v4 as uuidv4 } from 'uuid';
 const initialState = {
 
     ingredients: [],
@@ -47,9 +48,10 @@ export const cartReducer = (state = initialState, action) => {
             }
         }
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
+            const uuid = uuidv4()
             if (action.item.type !== 'bun') {
                 return {
-                    ...state, constructorItems: [...state.constructorItems, action.item]
+                    ...state, constructorItems: [...state.constructorItems, { ...action.item, uuid }]
                 }
             } else {
                 return {
@@ -58,12 +60,12 @@ export const cartReducer = (state = initialState, action) => {
             }
         }
         case REMOVE_INGREDIENT_FROM_CONSTRUCTOR: {
-            const newConstructorItems = state.constructorItems.filter((item, index) => index !== action.index)
+            const newConstructorItems = state.constructorItems.filter(item => item.uuid !== action.uuid)
             return {
                 ...state, constructorItems: newConstructorItems
             }
         }
-        case REPLACE_CONSTRUCTOR_ITEM:{
+        case REPLACE_CONSTRUCTOR_ITEM: {
             const newIndex = action.newIndex
             const oldIndex = action.oldIndex
             const newConstructorItems = [...state.constructorItems]
@@ -89,7 +91,7 @@ export const cartReducer = (state = initialState, action) => {
             }
         case ORDER_SUCCESS: {
             return {
-                ...state, orderRequest: false, orderFailed: false, order: action.data
+                ...state, orderRequest: false, orderFailed: false, order: action.data, bun: null, constructorItems: []
             }
         }
         case ORDER_FAILED: {
@@ -97,7 +99,7 @@ export const cartReducer = (state = initialState, action) => {
                 ...state, orderRequest: false, orderFailed: true
             }
         }
-        case CLEAR_ORDER:{
+        case CLEAR_ORDER: {
             return {
                 ...state, orderRequest: false, orderFailed: false, order: {}
             }

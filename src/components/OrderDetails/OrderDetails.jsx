@@ -2,7 +2,7 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 import orderDetailsStyles from "./OrderDetails.module.css";
 import PropTypes from "prop-types";
 
-const OrderDetails = (props) => {
+const OrderDetails = ({ identifier }) => {
   return (
     <div className={orderDetailsStyles.container + " mt-10"}>
       <p
@@ -10,7 +10,7 @@ const OrderDetails = (props) => {
           orderDetailsStyles.digits + " text text_type_digits-large mb-8"
         }
       >
-        {props.identifier}
+        {identifier}
       </p>
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <div className={orderDetailsStyles.cirlce + " mt-15 mb-15"}>
