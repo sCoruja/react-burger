@@ -1,4 +1,5 @@
 import { baseUrl, request } from "../../utils/api";
+import { v4 as uuidv4 } from 'uuid';
 
 export const INGREDIENTS_REQUEST = 'INGREDIENTS_REQUEST';
 export const INGREDIENTS_SUCCESS = 'INGREDIENTS_SUCCESS';
@@ -52,4 +53,21 @@ export const makeOrder = (ingredients) => dispatch => {
         .catch(e => {
             dispatch({ type: ORDER_FAILED })
         });
+}
+export const addIngredient = (item) => {
+    const uuid = uuidv4()
+    return { type: ADD_INGREDIENT_TO_CONSTRUCTOR, item, uuid }
+
+}
+export const removeIngredient = (uuid) => {
+    return { type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR, uuid }
+}
+export const setCurrentIngredient = (item) => {
+    return { type: SET_CURRENT_INGREDIENT, item }
+}
+export const clearOrder = () => {
+    return { type: CLEAR_ORDER }
+}
+export const switchTab = (tab) => {
+    return { type: SWITCH_TAB, tab }
 }

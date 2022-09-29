@@ -8,7 +8,7 @@ import {
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import {
-  REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+  removeIngredient,
   REPLACE_CONSTRUCTOR_ITEM,
 } from "../../services/actions/cart";
 import { ingridientType } from "../../utils/types";
@@ -17,7 +17,7 @@ const BurgerConstructorItem = ({ item, index }) => {
   const ref = useRef(null);
 
   const handleDelete = () => {
-    dispatch({ type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR, uuid: item.uuid });
+    dispatch(removeIngredient(item.uuid));
   };
   const [, drag] = useDrag({
     type: "replace",

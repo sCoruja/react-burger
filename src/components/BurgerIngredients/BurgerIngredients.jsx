@@ -7,8 +7,8 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getItems,
-  SET_CURRENT_INGREDIENT,
-  SWITCH_TAB,
+  setCurrentIngredient,
+  switchTab,
 } from "../../services/actions/cart";
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -38,10 +38,10 @@ const BurgerIngredients = () => {
   };
   const toggleModal = (item) => {
     setModalOpened(!modalOpened);
-    dispatch({ type: SET_CURRENT_INGREDIENT, item });
+    dispatch(setCurrentIngredient(item));
   };
-  const switchTab = (tab) => {
-    dispatch({ type: SWITCH_TAB, tab });
+  const handleTabClick = (tab) => {
+    dispatch(switchTab(tab));
     refs[tab].ref.current.scrollIntoView({ behavior: "smooth" });
   };
   const handleScroll = (e) => {
@@ -49,7 +49,7 @@ const BurgerIngredients = () => {
     for (var key of Object.keys(refs)) {
       const y = refs[key].ref.current.getBoundingClientRect().y - rootY;
       if (y > 0 && y < rootY && currentTab !== refs[key].tab) {
-        dispatch({ type: SWITCH_TAB, tab: refs[key].tab });
+        dispatch(switchTab(refs[key].tab));
       }
     }
   };
@@ -60,17 +60,25 @@ const BurgerIngredients = () => {
     <>
       <div className={burgerIngriidentsStyles.container}>
         <div className={burgerIngriidentsStyles.tabs} ref={rootRef}>
-          <Tab value="bun" active={currentTab === "bun"} onClick={switchTab}>
+          <Tab
+            value="bun"
+            active={currentTab === "bun"}
+            onClick={handleTabClick}
+          >
             Булки
           </Tab>
           <Tab
             value="sauce"
             active={currentTab === "sauce"}
-            onClick={switchTab}
+            onClick={handleTabClick}
           >
             Соусы
           </Tab>
-          <Tab value="main" active={currentTab === "main"} onClick={switchTab}>
+          <Tab
+            value="main"
+            active={currentTab === "main"}
+            onClick={handleTabClick}
+          >
             Начинки
           </Tab>
         </div>

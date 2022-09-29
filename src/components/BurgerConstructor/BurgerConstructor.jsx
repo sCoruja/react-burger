@@ -10,11 +10,12 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  ADD_INGREDIENT_TO_CONSTRUCTOR,
-  CLEAR_ORDER,
+  addIngredient,
+  clearOrder,
   makeOrder,
 } from "../../services/actions/cart";
 import BurgerConstructorItem from "./BurgerConstructorItem";
+import Spinner from "../../ui/Spinner/Spinner";
 const BurgerConstructor = () => {
   const [modalOpened, setModalOpened] = React.useState(false);
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const BurgerConstructor = () => {
   const [, dropTarget] = useDrop({
     accept: "ingredient",
     drop(item) {
-      dispatch({ type: ADD_INGREDIENT_TO_CONSTRUCTOR, item });
+      dispatch(addIngredient(item));
     },
   });
 
@@ -39,7 +40,7 @@ const BurgerConstructor = () => {
     setModalOpened(!modalOpened);
   };
   const closeModal = () => {
-    dispatch({ type: CLEAR_ORDER });
+    dispatch(clearOrder());
     toggleModal();
   };
   const handleClick = () => {
@@ -104,7 +105,12 @@ const BurgerConstructor = () => {
           <span className="price mr-10 text text_type_digits-medium">
             {totalPrice} <CurrencyIcon />
           </span>
-          <Button type="primary" size="large" onClick={handleClick} disabled={!bun}>
+          <Button
+            type="primary"
+            size="large"
+            onClick={handleClick}
+            disabled={!bun}
+          >
             Заказать
           </Button>
         </div>
@@ -114,7 +120,10 @@ const BurgerConstructor = () => {
           {order?.order ? (
             <OrderDetails identifier={order?.order.number} />
           ) : (
-            <p className="text text_type_main-default">Оформляем заказ...</p>
+            <div className={constructorStyles.loading}>
+              <Spinner size={"medium"} />
+              <p className="text text_type_main-default">Оформляем заказ...</p>
+            </div>
           )}
         </Modal>
       )}
