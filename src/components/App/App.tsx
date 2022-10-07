@@ -1,25 +1,44 @@
 import React from "react";
-import "@ya.praktikum/react-developer-burger-ui-components";
-import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import appStyles from "./App.module.css";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {Switch, Route } from "react-router-dom";
 
+import "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Home,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Ingredient,
+  Profile,
+} from "../../pages";
+import AppHeader from "../AppHeader/AppHeader";
 function App() {
   return (
     <>
-      <AppHeader />
-      <section className={appStyles.container}>
-        <h2 className="text text_type_main-large">Соберите бургер</h2>
-        <div className={appStyles.grid}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </div>
-      </section>
+    <AppHeader />
+      <Switch>
+        <Route path="/" exact={true}>
+          <Home />
+        </Route>
+        <Route path="/login" exact={true}>
+          <Login />
+        </Route>
+        <Route path="/register" exact={true}>
+          <Register />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPassword />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPassword />
+        </Route>
+        <Route path="/ingredients" exact={true}>
+          <Ingredient />
+        </Route>
+        <Route path="/profile" exact={true}>
+          <Profile />
+        </Route>
+      </Switch>
     </>
   );
 }

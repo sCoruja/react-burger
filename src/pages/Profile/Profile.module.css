@@ -1,0 +1,26 @@
+.section{
+    display: flex;
+    gap: 60px;
+    padding: 0 20px;
+    margin-top: 120px;
+}
+.menu{
+    max-width: 320px;
+}
+.list{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 80px;
+    list-style-type: none;
+}
+.fieldset{
+    border: none;
+    width: 480px;
+}
+.fieldset input, .fieldset>div, .fieldset>div>div{
+    width: 100%;
+}
+.link{
+    text-decoration: none;
+    line-height: 60px;
+}

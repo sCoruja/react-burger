@@ -40,7 +40,7 @@
   align-items: center;
   position: relative;
   width: 100%;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .ingridient > svg {
     cursor: move;
