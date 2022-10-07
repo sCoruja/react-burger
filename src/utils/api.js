@@ -8,3 +8,4 @@ export const checkResponse = response => {
 }
 export const request = (url, options) =>
     fetch(url, options).then(checkResponse)
+
