@@ -4,3 +4,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 32px 24px;
 }
+.link{
+    text-decoration: none;
+    color: inherit;
+}

@@ -20,8 +20,12 @@ import {
     UPDATE_USER_REQUEST,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAILED,
+    REFRESH_TOKEN_REQUEST,
+    REFRESH_TOKEN_SUCCESS,
+    REFRESH_TOKEN_FAILED,
 } from '../actions/user'
 const initialState = {
+    isLogged: false,
     userName: '',
     email: '',
     accessToken: '',
@@ -40,6 +44,8 @@ const initialState = {
     getUserFailed: false,
     updateUserRequest: false,
     updateUserFailed: false,
+    refreshTokenRequest: false,
+    refreshTokenFailed: false,
 }
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -88,6 +94,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 registerRequest: false,
+                isLogged: true,
                 userName: action.data.user.name,
                 email: action.data.user.email,
                 accessToken: action.data.accessToken,
@@ -111,6 +118,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginRequest: false,
+                isLogged: true,
                 userName: action.data.user.name,
                 email: action.data.user.email,
                 accessToken: action.data.accessToken,
@@ -133,6 +141,7 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 logoutRequest: false,
+                isLogged: false,
                 userName: '',
                 email: '',
                 accessToken: '',
@@ -157,8 +166,11 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getUserRequest: false,
+                isLogged: true,
                 userName: action.data.user.name,
                 email: action.data.user.email,
+                accessToken: action.accessToken,
+                refreshToken: action.refreshToken,
 
             }
         }
@@ -188,6 +200,27 @@ export const userReducer = (state = initialState, action) => {
                 ...state, updateUserRequest: false, updateUserFailed: true,
 
             }
+        }
+        case REFRESH_TOKEN_REQUEST: {
+            return {
+                ...state, refreshTokenRequest: true, refreshTokenFailed: false,
+
+            }
+
+        }
+        case REFRESH_TOKEN_SUCCESS: {
+            return {
+                ...state, updateUserRequest: false, accessToken: action.data.accessToken, refreshToken: action.data.refreshToken
+
+            }
+
+        }
+        case REFRESH_TOKEN_FAILED: {
+            return {
+                ...state, refreshTokenRequest: false, refreshTokenFailed: true,
+
+            }
+
         }
         default: {
             return state

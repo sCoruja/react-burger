@@ -18,7 +18,7 @@ const Modal = ({ heading, children, onClose }) => {
     return () => {
       document.removeEventListener("keyup", handleEscapePress);
     };
-  }, []);
+  }, [onClose]);
   return ReactDOM.createPortal(
     <ModalOverlay onClick={onClose}>
       <div className={modalStyles.modal + " p-10"}>

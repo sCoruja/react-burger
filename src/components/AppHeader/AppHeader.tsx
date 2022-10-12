@@ -6,20 +6,22 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 const AppHeader = () => {
   return (
     <header className={headerStyles.header + " pb-4 pt-4"}>
       <nav className={headerStyles.nav}>
         <ul className={headerStyles.list}>
           <li className={headerStyles.item}>
-              <Link
+              <NavLink
               to="/"
-              className={`${headerStyles.link} ${headerStyles.active} text `}
+              className={`text ${headerStyles.link} text_color_inactive `}
+              activeClassName={`text ${headerStyles.link} ${headerStyles.active} `}
+              exact={true}
             >
               <BurgerIcon type="primary" />
               <span className="ml-2">Конструктор</span>
-            </Link>
+            </NavLink>
           </li>
           <li className={headerStyles.item}>
             {/* eslint-disable-next-line*/}
@@ -35,13 +37,14 @@ const AppHeader = () => {
       </nav>
       <Logo />
       <div className={headerStyles.logo}></div>
-      <Link
+      <NavLink
         className={headerStyles.link + " text text_color_inactive"}
+        activeClassName={`${headerStyles.link} ${headerStyles.active} text `}
         to="/profile"
       >
         <ProfileIcon type="secondary" />
         <span className="ml-2">Личный кабинет</span>
-      </Link>
+      </NavLink>
     </header>
   );
 };

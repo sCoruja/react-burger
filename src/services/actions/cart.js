@@ -33,7 +33,7 @@ export const getItems = () => dispatch => {
         });
 }
 
-export const makeOrder = (ingredients) => dispatch => {
+export const makeOrder = (ingredients,accessToken) => dispatch => {
     const url = baseUrl + 'orders';
 
     dispatch({ type: ORDER_REQUEST })
@@ -41,7 +41,8 @@ export const makeOrder = (ingredients) => dispatch => {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': accessToken,
         },
         body: JSON.stringify({
             ingredients: ingredients

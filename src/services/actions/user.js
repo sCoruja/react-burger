@@ -28,6 +28,10 @@ export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
 
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILED = 'REFRESH_TOKEN_FAILED';
+
 export const forgotPassword = (email) => dispatch => {
     const url = baseUrl + 'password-reset';
 
@@ -74,7 +78,6 @@ export const resetPassword = (password, token) => dispatch => {
 
 export const register = (email, password, name) => dispatch => {
     const url = baseUrl + 'auth/register';
-
     dispatch({ type: REGISTER_REQUEST })
     request(url, {
         method: 'POST',
@@ -109,16 +112,18 @@ export const login = (email, password) => dispatch => {
     })
         .then(data => {
             dispatch({ type: LOGIN_SUCCESS, data: data });
+            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
         })
         .catch(e => {
             dispatch({ type: LOGIN_FAILED })
         });
 }
 
-export const logout = (accessToken, refreshToken) => dispatch => {
+export const logout = (refreshToken) => dispatch => {
     const url = baseUrl + 'auth/logout';
 
-    dispatch({ type: LOGIN_REQUEST })
+    dispatch({ type: LOGOUT_REQUEST })
     request(url, {
         method: 'POST',
         headers: {
@@ -126,31 +131,30 @@ export const logout = (accessToken, refreshToken) => dispatch => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            token: `${accessToken} ${refreshToken}`
+            token: refreshToken
         })
     })
         .then(data => {
-            dispatch({ type: LOGIN_SUCCESS, data: data });
+            dispatch({ type: LOGOUT_SUCCESS, data: data });
         })
         .catch(e => {
             dispatch({ type: LOGIN_FAILED })
         });
 }
 
-export const getUser = accessToken => dispatch => {
+export const getUser = (accessToken, refreshToken) => dispatch => {
     const url = baseUrl + 'auth/user';
-
     dispatch({ type: GET_USER_REQUEST })
     request(url, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+            'Authorization': accessToken
         }
     })
         .then(data => {
-            dispatch({ type: GET_USER_SUCCESS, data: data });
+            dispatch({ type: GET_USER_SUCCESS, data: data, accessToken, refreshToken });
         })
         .catch(e => {
             dispatch({ type: GET_USER_FAILED })
@@ -166,9 +170,9 @@ export const updateUser = (accessToken, userInfo) => dispatch => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+            'Authorization': accessToken
         },
-        body: JSON.stringify({...userInfo})
+        body: JSON.stringify({ ...userInfo })
     })
         .then(data => {
             dispatch({ type: UPDATE_USER_SUCCESS, data: data });
@@ -176,4 +180,25 @@ export const updateUser = (accessToken, userInfo) => dispatch => {
         .catch(e => {
             dispatch({ type: UPDATE_USER_FAILED })
         });
+}
+
+export const resfreshToken = (refreshToken) => dispatch =>{
+    const url = baseUrl + 'auth/token';
+    dispatch({type: REFRESH_TOKEN_REQUEST})
+    request(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: `${refreshToken}` })
+    })
+    .then(data => {
+        dispatch({ type: REFRESH_TOKEN_SUCCESS, data: data });
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+    })
+    .catch(e => {
+        dispatch({ type: REFRESH_TOKEN_FAILED })
+    });
 }

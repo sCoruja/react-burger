@@ -5,23 +5,43 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { forgotPassword } from "../../services/actions/user";
+import { useDispatch, useSelector } from "react-redux";
 
 export const ForgotPassword = () => {
   const [form, setValue] = React.useState({ email: "" });
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { forgotPasswordRequest, forgotPasswordFailed } = useSelector(
+    (store) => store.user
+  );
+  const handleChange = (e) => [
+    setValue({ ...form, [e.target.name]: e.target.value }),
+  ];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (form.email) {
+      dispatch(forgotPassword(form.email));
+      history.push("/reset-password");
+    }
+  };
 
   return (
     <>
       <section className={styles.container}>
+        {forgotPasswordFailed && (
+          <p className={styles.errorMessage}>Произошла ошибка</p>
+        )}
         <h2 className="text text_type_main-medium mb-6">
           Восстановление пароля
         </h2>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <fieldset className={styles.field}>
             <Input
               type={"email"}
               placeholder={"Укажите e-mail"}
-              onChange={(e) => setValue({ ...form, email: e.target.value })}
+              onChange={handleChange}
               value={form.email}
               name={"email"}
               error={false}
@@ -29,13 +49,18 @@ export const ForgotPassword = () => {
             />
           </fieldset>
           <fieldset className={styles.button}>
-            <Button type="primary" size="medium">
-              Восстановить
+            <Button
+              type="primary"
+              size="medium"
+              disabled={!form.email}
+              onClick={handleSubmit}
+            >
+              {forgotPasswordRequest ? "Загрузка..." : "Восстановить"}
             </Button>
           </fieldset>
         </form>
         <p className="text text_type_main-default text_color_inactive">
-          Вспомнили пароль?{' '}
+          Вспомнили пароль?{" "}
           <Link
             className={
               styles.link + " text text_type_main-default text_color_accent"

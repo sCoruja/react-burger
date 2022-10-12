@@ -17,6 +17,11 @@
     border: none;
     width: 480px;
 }
+.buttons{
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+}
 .fieldset input, .fieldset>div, .fieldset>div>div{
     width: 100%;
 }

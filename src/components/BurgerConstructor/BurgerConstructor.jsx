@@ -16,7 +16,10 @@ import {
 } from "../../services/actions/cart";
 import BurgerConstructorItem from "./BurgerConstructorItem";
 import Spinner from "../../ui/Spinner/Spinner";
+import { useHistory } from "react-router";
 const BurgerConstructor = () => {
+  const { isLogged, accessToken } = useSelector((store) => store.user);
+  const history = useHistory();
   const [modalOpened, setModalOpened] = React.useState(false);
   const dispatch = useDispatch();
   const { constructorItems, bun, order } = useSelector((store) => store.cart);
@@ -44,10 +47,14 @@ const BurgerConstructor = () => {
     toggleModal();
   };
   const handleClick = () => {
-    const ingredients = [...constructorItems.map((item) => item._id)];
-    if (bun?._id) ingredients.push(bun._id);
-    dispatch(makeOrder(ingredients));
-    toggleModal();
+    if (isLogged) {
+      const ingredients = [...constructorItems.map((item) => item._id)];
+      if (bun?._id) ingredients.push(bun._id);
+      dispatch(makeOrder(ingredients, accessToken));
+      toggleModal();
+    } else {
+      history.push("/login");
+    }
   };
 
   return (

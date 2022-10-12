@@ -6,18 +6,25 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getItems,
   setCurrentIngredient,
   switchTab,
 } from "../../services/actions/cart";
+import { useHistory } from "react-router";
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const { ingredients, ingredientsRequest, currentIngredient, currentTab } =
-    useSelector((store) => store.cart);
+  const {
+    ingredients,
+    ingredientsRequest,
+    currentIngredient,
+    currentTab,
+  } = useSelector((store) => store.cart);
+
+  const localCurrentIngredient = localStorage.getItem("currentIngredient");
   const [modalOpened, setModalOpened] = React.useState(false);
   const buns = ingredients.filter((item) => item.type === "bun");
   const sauces = ingredients.filter((item) => item.type === "sauce");
   const main = ingredients.filter((item) => item.type === "main");
+  const history = useHistory();
   const rootRef = useRef();
   const bunsRef = useRef();
   const saucesRef = useRef();
@@ -36,9 +43,17 @@ const BurgerIngredients = () => {
       ref: mainRef,
     },
   };
-  const toggleModal = (item) => {
-    setModalOpened(!modalOpened);
+  const showModal = (item) => {
+    setModalOpened(true);
     dispatch(setCurrentIngredient(item));
+    history.replace(`/ingredients/${item._id}`);
+    localStorage.setItem("currentIngredient", item._id);
+  };
+  const hideModal = () => {
+    setModalOpened(false);
+    dispatch(setCurrentIngredient(undefined));
+    localStorage.setItem("currentIngredient", "");
+    history.replace("/");
   };
   const handleTabClick = (tab) => {
     dispatch(switchTab(tab));
@@ -54,8 +69,13 @@ const BurgerIngredients = () => {
     }
   };
   useEffect(() => {
-    dispatch(getItems());
-  }, [dispatch]);
+    if (localCurrentIngredient && ingredients.length) {
+      const currentItem = ingredients.find(
+        (item) => (item._id === localCurrentIngredient)
+      );
+      showModal(currentItem);
+    }
+  }, [localCurrentIngredient, ingredients]);
   return (
     <>
       <div className={burgerIngriidentsStyles.container}>
@@ -94,27 +114,27 @@ const BurgerIngredients = () => {
               tab="bun"
               items={buns}
               refElement={bunsRef}
-              toggleModal={toggleModal}
+              toggleModal={showModal}
             />
             <IngridientsGroup
               heading="Соусы"
               tab="sauce"
               items={sauces}
               refElement={saucesRef}
-              toggleModal={toggleModal}
+              toggleModal={showModal}
             />
             <IngridientsGroup
               heading="Начинки"
               tab="main"
               items={main}
               refElement={mainRef}
-              toggleModal={toggleModal}
+              toggleModal={showModal}
             />
           </div>
         )}
       </div>
       {modalOpened && (
-        <Modal onClose={toggleModal} heading="Детали ингридиента">
+        <Modal onClose={hideModal} heading="Детали ингридиента">
           <IngredientDetails data={currentIngredient} />
         </Modal>
       )}
