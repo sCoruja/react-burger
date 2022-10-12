@@ -7,18 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, updateUser } from "../../services/actions/user";
-import { useHistory } from "react-router";
+import { Route, Switch, useHistory } from "react-router";
+import { Form } from "./Form";
+import { Orders } from "./Orders";
+import { NavLink } from "react-router-dom";
 
 export const Profile = () => {
-  const { userName, email,accessToken, refreshToken, isLogged } = useSelector(
-    (store) => store.user
-  );
-  const [isFormActive, setFormActive] = React.useState(false);
-  const [form, setValue] = React.useState({
-    name: userName,
-    email: email,
-    password: "",
-  });
+  const { refreshToken, isLogged } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const history = useHistory();
   const handleLogout = (e) => {
@@ -26,57 +21,44 @@ export const Profile = () => {
     dispatch(logout(refreshToken));
     localStorage.clear();
   };
-  const handleSave = (e) => {
-    e.preventDefault();
-    const formData = {
-      ...form,
-      password: form.password ? form.password : undefined,
-    };
-    dispatch(updateUser(accessToken, formData))
-    setFormActive(false);
-  };
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setValue({
-      name: userName,
-      email: email,
-      password: "",
-    });
-    setFormActive(false);
-  };
+
   useEffect(() => {
     if (!isLogged) history.push("/login");
   }, [isLogged, history]);
-  useEffect(() => {
-    setValue({ ...form, name: userName, email: email });
-  }, [userName, email]);
   return (
     <>
       <section className={styles.section}>
         <aside className={styles.menu}>
           <ul className={styles.list}>
             <li className={styles.item}>
-              {/* eslint-disable-next-line*/}
-              <a
-                className={
-                  styles.link + " text text_type_main-medium text_color_primary"
+              <NavLink
+                  to="/profile"
+                className={(isActive)=>
+                  styles.link +
+                  " text text_type_main-medium "
                 }
-                href="#"
+                activeClassName={
+                  styles.link + " text text_type_main-medium text_color_primary " + styles.active
+                }
+                exact={true}
               >
                 Профиль
-              </a>
+              </NavLink>
             </li>
             <li className={styles.item}>
-              {/* eslint-disable-next-line*/}
-              <a
+              <NavLink
                 className={
                   styles.link +
-                  " text text_type_main-medium text_color_inactive"
+                  " text text_type_main-medium "
                 }
-                href="#"
+                activeClassName={
+                  styles.link + " text text_type_main-medium text_color_primary " + styles.active
+                }
+                exact={true}
+                to="/profile/orders"
               >
                 История заказов
-              </a>
+              </NavLink>
             </li>
             <li className={styles.item}>
               <a
@@ -100,66 +82,14 @@ export const Profile = () => {
           </p>
         </aside>
         <main>
-          <form className={styles.form}>
-            <fieldset className={styles.fieldset}>
-              <Input
-                type={"text"}
-                placeholder={"Имя"}
-                onChange={(e) => setValue({ ...form, name: e.target.value })}
-                value={form.name}
-                name={"name"}
-                error={false}
-                errorText={"Ошибка"}
-                icon={!isFormActive && "EditIcon"}
-                disabled={!isFormActive}
-                onIconClick={() => {
-                  setFormActive(true);
-                }}
-              />
-            </fieldset>
-            <fieldset className={styles.fieldset}>
-              <Input
-                type={"email"}
-                placeholder={"Логин"}
-                onChange={(e) => setValue({ ...form, email: e.target.value })}
-                value={form.email}
-                name={"email"}
-                error={false}
-                errorText={"Ошибка"}
-                icon={!isFormActive && "EditIcon"}
-                disabled={!isFormActive}
-                onIconClick={() => {
-                  setFormActive(true);
-                }}
-              />
-            </fieldset>
-            <fieldset className={styles.fieldset}>
-              <Input
-                type={"password"}
-                placeholder={"Пароль"}
-                onChange={(e) =>
-                  setValue({ ...form, password: e.target.value })
-                }
-                value={form.password}
-                name={"name"}
-                error={false}
-                errorText={"Ошибка"}
-                icon={!isFormActive && "EditIcon"}
-                disabled={!isFormActive}
-                onIconClick={() => {
-                  setFormActive(true);
-                }}
-              />
-            </fieldset>
-            {isFormActive && (
-              <fieldset className={styles.buttons}>
-                <Button onClick={handleSave}>Сохранить</Button>
-                <Button type="secondary" onClick={handleCancel}>
-                  Отмена
-                </Button>
-              </fieldset>
-            )}
-          </form>
+          <Switch>
+            <Route path="/profile" exact={true}>
+              <Form />
+            </Route>
+            <Route path="/profile/orders" exact={true}>
+              <Orders />
+            </Route>
+          </Switch>
         </main>
       </section>
     </>

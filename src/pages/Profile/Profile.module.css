@@ -28,4 +28,8 @@
 .link{
     text-decoration: none;
     line-height: 60px;
+    color: #8585ad;
+}
+.active {
+    color: #ffffff;
 }

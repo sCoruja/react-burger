@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPassword.module.css";
 import {
@@ -7,11 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/actions/user";
+import { useHistory } from "react-router";
 
 export const ResetPassword = () => {
   const [form, setValue] = React.useState({ code: "", password: "" });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const isValid = useMemo(() => form.code && form.password, [form]);
+  const { isLogged } = useSelector((store) => store.user);
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const { resetPasswordRequest, resetPasswordFailed } = useSelector(
@@ -30,13 +33,20 @@ export const ResetPassword = () => {
     }
   };
 
+  useEffect(() => {
+    if (isLogged) {
+      history.push("/profile");
+    }
+  }, [isLogged]);
   return (
     <>
       <section className={styles.container}>
         <h2 className="text text_type_main-medium mb-6">
           Восстановление пароля
         </h2>
-        {resetPasswordFailed && <p className={styles.errorMessage}>Произошла ошибка</p>}
+        {resetPasswordFailed && (
+          <p className={styles.errorMessage}>Произошла ошибка</p>
+        )}
         <form className={styles.form}>
           <fieldset className={styles.field}>
             <Input
@@ -69,7 +79,7 @@ export const ResetPassword = () => {
               onClick={handleSubmit}
               disabled={!isValid}
             >
-              {resetPasswordRequest? 'Загрузка...':'Восстановить'}
+              {resetPasswordRequest ? "Загрузка..." : "Восстановить"}
             </Button>
           </fieldset>
         </form>
