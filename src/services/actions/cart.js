@@ -9,9 +9,6 @@ export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
 export const REMOVE_INGREDIENT_FROM_CONSTRUCTOR = 'REMOVE_INGREDIENT_FROM_CONSTRUCTOR';
 export const REPLACE_CONSTRUCTOR_ITEM = 'REPLACE_CONSTRUCTOR_ITEM';
 
-export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT';
-export const CLEAR_CURRENT_INGREDIENT = 'CLEAR_CURRENT_INGREDIENT';
-
 export const ORDER_REQUEST = 'ORDER_REQUEST';
 export const ORDER_SUCCESS = 'ORDER_SUCCESS';
 export const ORDER_FAILED = 'ORDER_FAILED';
@@ -62,9 +59,6 @@ export const addIngredient = (item) => {
 }
 export const removeIngredient = (uuid) => {
     return { type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR, uuid }
-}
-export const setCurrentIngredient = (item) => {
-    return { type: SET_CURRENT_INGREDIENT, item }
 }
 export const clearOrder = () => {
     return { type: CLEAR_ORDER }

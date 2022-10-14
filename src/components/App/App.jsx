@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route,  } from "react-router-dom";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 
 import "@ya.praktikum/react-developer-burger-ui-components";
 import {
@@ -14,16 +14,19 @@ import {
 import AppHeader from "../AppHeader/AppHeader";
 import { getUser, resfreshToken } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import  ProtectedRoute  from "../ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { checkToken } from "../../utils/api";
 import { getItems } from "../../services/actions/cart";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 function App() {
+  const location = useLocation();
+  const history = useHistory();
+  const background = location.state && location.state.background;
   const localAccessToken = localStorage.getItem("accessToken");
   const localRefreshToken = localStorage.getItem("refreshToken");
-  const { accessToken, refreshToken, } = useSelector((store) => store.user);
-  const { currentIngredient } = useSelector((store) => store.cart);
+  const { accessToken, refreshToken } = useSelector((store) => store.user);
   const dispatch = useDispatch();
-  const localCurrentIngredient = localStorage.getItem('currentIngredient');
   useEffect(() => {
     if (localAccessToken && checkToken(localAccessToken.split(" ")[1]))
       dispatch(resfreshToken(localRefreshToken));
@@ -39,7 +42,7 @@ function App() {
   return (
     <>
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route path="/" exact={true}>
           <Home />
         </Route>
@@ -56,12 +59,25 @@ function App() {
           <ResetPassword />
         </Route>
         <Route path="/ingredients/:id" exact={true}>
-          {localCurrentIngredient || currentIngredient?.name ? <Home /> : <Ingredient />}
+          <Ingredient />
         </Route>
         <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
       </Switch>
+
+      {background && (
+        <Route path="/ingredients/:id" exact={true}>
+          <Modal
+            onClose={() => {
+              history.push("/");
+            }}
+            heading="Детали ингридиента"
+          >
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      )}
     </>
   );
 }

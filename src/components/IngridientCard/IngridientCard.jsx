@@ -6,8 +6,8 @@ import {
 import ingridientCardStyles from "./IngridientCard.module.css";
 import { ingridientType } from "../../utils/types";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
-const IngridientCard = ({ data, onClick }) => {
+import { useDispatch, useSelector } from "react-redux";
+const IngridientCard = ({ data }) => {
   const { bun, constructorItems } = useSelector((store) => store.cart);
   const count =
     data.type === "bun"
@@ -22,12 +22,7 @@ const IngridientCard = ({ data, onClick }) => {
     item: data,
   });
   return (
-    <div
-      className={ingridientCardStyles.card}
-      onClick={onClick}
-      ref={dragRef}
-      draggable
-    >
+    <div className={ingridientCardStyles.card} ref={dragRef} draggable>
       {count ? <Counter count={count} size="default" /> : ""}
       <img
         src={data.image}
@@ -53,6 +48,5 @@ const IngridientCard = ({ data, onClick }) => {
 };
 IngridientCard.propTypes = {
   data: PropTypes.shape(ingridientType).isRequired,
-  onClick: PropTypes.func.isRequired,
 };
 export default IngridientCard;

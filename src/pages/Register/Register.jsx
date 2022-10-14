@@ -49,71 +49,69 @@ export const Register = () => {
     }
   }, [isLogged]);
   return (
-    <>
-      <section className={styles.container}>
-        <h2 className="text text_type_main-medium mb-6">Регистрация</h2>
-        {registerFailed && (
-          <p className={styles.errorMessage}>Произошла ошибка</p>
-        )}
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <fieldset className={styles.field}>
-            <Input
-              type={"text"}
-              placeholder={"Имя"}
-              onChange={handleChange}
-              value={form.name}
-              name={"name"}
-              error={false}
-              errorText={"Ошибка"}
-            />
-          </fieldset>
-          <fieldset className={styles.field}>
-            <Input
-              type={"email"}
-              placeholder={"E-mail"}
-              onChange={handleChange}
-              value={form.email}
-              name={"email"}
-              error={false}
-              errorText={"Ошибка"}
-            />
-          </fieldset>
-          <fieldset className={styles.field}>
-            <Input
-              type={isPasswordHidden ? "password" : "text"}
-              placeholder={"Пароль"}
-              onChange={handleChange}
-              value={form.password}
-              name={"password"}
-              icon={isPasswordHidden ? "ShowIcon" : "HideIcon"}
-              error={false}
-              errorText={"Ошибка"}
-              onIconClick={handleIconClick}
-            />
-          </fieldset>
-          <fieldset className={styles.button}>
-            <Button
-              type="primary"
-              size="medium"
-              onClick={handleSubmit}
-              disabled={!isValid}
-            >
-              {registerRequest ? "Загрузка..." : "Зарегестрироваться"}
-            </Button>
-          </fieldset>
-        </form>
-        <p className="text text_type_main-default text_color_inactive">
-          Уже зарегистрированы?{" "}
-          <Link
-            className={
-              styles.link + " text text_type_main-default text_color_accent"
-            }
-            to="/login"
+    <section className={styles.container}>
+      <h2 className="text text_type_main-medium mb-6">Регистрация</h2>
+      {registerFailed && (
+        <p className={styles.errorMessage}>Произошла ошибка</p>
+      )}
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <fieldset className={styles.field}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={handleChange}
+            value={form.name}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+          />
+        </fieldset>
+        <fieldset className={styles.field}>
+          <Input
+            type={"email"}
+            placeholder={"E-mail"}
+            onChange={handleChange}
+            value={form.email}
+            name={"email"}
+            error={false}
+            errorText={"Ошибка"}
+          />
+        </fieldset>
+        <fieldset className={styles.field}>
+          <Input
+            type={isPasswordHidden ? "password" : "text"}
+            placeholder={"Пароль"}
+            onChange={handleChange}
+            value={form.password}
+            name={"password"}
+            icon={isPasswordHidden ? "ShowIcon" : "HideIcon"}
+            error={false}
+            errorText={"Ошибка"}
+            onIconClick={handleIconClick}
+          />
+        </fieldset>
+        <fieldset className={styles.button}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="medium"
+            disabled={!isValid}
           >
-            Войти
-          </Link>
-        </p>
-      </section>
-    </>
+            {registerRequest ? "Загрузка..." : "Зарегестрироваться"}
+          </Button>
+        </fieldset>
+      </form>
+      <p className="text text_type_main-default text_color_inactive">
+        Уже зарегистрированы?{" "}
+        <Link
+          className={
+            styles.link + " text text_type_main-default text_color_accent"
+          }
+          to="/login"
+        >
+          Войти
+        </Link>
+      </p>
+    </section>
   );
 };

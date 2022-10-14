@@ -9,9 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../services/actions/user";
 
 export const Form = () => {
-  const { userName, email, accessToken } = useSelector(
-    (store) => store.user
-  );
+  const { userName, email, accessToken } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [isFormActive, setFormActive] = React.useState(false);
   const [form, setValue] = React.useState({
@@ -92,7 +90,7 @@ export const Form = () => {
       </fieldset>
       {isFormActive && (
         <fieldset className={styles.buttons}>
-          <Button onClick={handleSave}>Сохранить</Button>
+          <Button htmlType="submit">Сохранить</Button>
           <Button type="secondary" onClick={handleCancel}>
             Отмена
           </Button>

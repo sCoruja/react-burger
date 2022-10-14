@@ -4,8 +4,6 @@ import {
     INGREDIENTS_FAILED,
     ADD_INGREDIENT_TO_CONSTRUCTOR,
     REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
-    SET_CURRENT_INGREDIENT,
-    CLEAR_CURRENT_INGREDIENT,
     ORDER_REQUEST,
     ORDER_SUCCESS,
     ORDER_FAILED,
@@ -70,16 +68,6 @@ export const cartReducer = (state = initialState, action) => {
             newConstructorItems.splice(newIndex, 0, newConstructorItems.splice(oldIndex, 1)[0]);
             return {
                 ...state, constructorItems: newConstructorItems
-            }
-        }
-        case SET_CURRENT_INGREDIENT: {
-            return {
-                ...state, currentIngredient: action.item
-            }
-        }
-        case CLEAR_CURRENT_INGREDIENT: {
-            return {
-                ...state, currentIngredient: {}
             }
         }
         case ORDER_REQUEST:

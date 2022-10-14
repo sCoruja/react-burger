@@ -1,12 +1,19 @@
-import PropTypes from "prop-types";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import ingredientDetailsStyles from "./IngredientDetails.module.css";
 
-const IngredientDetails = ({ data }) => {
-  return (
+const IngredientDetails = () => {
+  const { id } = useParams();
+  const { ingredients } = useSelector((store) => store.cart);
+  const currentIngredient = useMemo(() => {
+    return ingredients?.find((item) => item._id === id);
+  }, [ingredients]);
+  return currentIngredient ? (
     <div className={ingredientDetailsStyles.container}>
       <img
-        src={data.image_large}
-        alt={data.name}
+        src={currentIngredient.image_large}
+        alt={currentIngredient.name}
         className={ingredientDetailsStyles.image}
       />
       <h3
@@ -15,7 +22,7 @@ const IngredientDetails = ({ data }) => {
           " text text_type_main-medium mt-4 mb-8"
         }
       >
-        {data.name}
+        {currentIngredient.name}
       </h3>
       <div className={ingredientDetailsStyles.nutrions}>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -23,7 +30,7 @@ const IngredientDetails = ({ data }) => {
             Калории,ккал
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {data.calories}
+            {currentIngredient.calories}
           </span>
         </div>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -31,7 +38,7 @@ const IngredientDetails = ({ data }) => {
             Белки, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {data.proteins}
+            {currentIngredient.proteins}
           </span>
         </div>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -39,7 +46,7 @@ const IngredientDetails = ({ data }) => {
             Жиры, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {data.fat}
+            {currentIngredient.fat}
           </span>
         </div>
         <div className={ingredientDetailsStyles.nutrion}>
@@ -47,14 +54,13 @@ const IngredientDetails = ({ data }) => {
             Углеводы, г
           </span>
           <span className="text text_type_digits-default text_color_inactive">
-            {data.carbohydrates}
+            {currentIngredient.carbohydrates}
           </span>
         </div>
       </div>
     </div>
+  ) : (
+    <></>
   );
-};
-IngredientDetails.propTypes = {
-  data: PropTypes.object.isRequired,
 };
 export default IngredientDetails;
