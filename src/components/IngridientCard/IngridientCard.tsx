@@ -1,14 +1,17 @@
-import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingridientCardStyles from "./IngridientCard.module.css";
-import { ingridientType } from "../../utils/types";
+import { ICartState, IIngridientCardProps, IState } from "../../utils/types";
 import { useDrag } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
-const IngridientCard = ({ data }) => {
-  const { bun, constructorItems } = useSelector((store) => store.cart);
+import { useSelector } from "react-redux";
+import { FC } from "react";
+
+const IngridientCard: FC<IIngridientCardProps> = ({ data }) => {
+  const { bun, constructorItems } = useSelector<IState, ICartState>(
+    (store) => store.cart
+  );
   const count =
     data.type === "bun"
       ? bun?._id === data._id
@@ -36,7 +39,7 @@ const IngridientCard = ({ data }) => {
           " text text_type_digits-default mt-1 mb-1"
         }
       >
-        {data.price} <CurrencyIcon />
+        {data.price} <CurrencyIcon type="primary" />
       </span>
       <span
         className={ingridientCardStyles.name + " text text_type_main-small"}
@@ -45,8 +48,5 @@ const IngridientCard = ({ data }) => {
       </span>
     </div>
   );
-};
-IngridientCard.propTypes = {
-  data: PropTypes.shape(ingridientType).isRequired,
 };
 export default IngridientCard;

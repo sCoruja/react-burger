@@ -1,53 +1,72 @@
-import React, { useEffect, useMemo } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useMemo } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./Login.module.css";
+import styles from "./Register.module.css";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { register } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../services/actions/user";
+import { IState, IUserState } from "../../utils/types";
 
-export const Login = () => {
-  const { constructorItems, bun } = useSelector((store) => store.cart);
-  const [form, setValue] = React.useState({ email: "", password: "" });
+export const Register = () => {
+  const [form, setValue] = React.useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
   const {
     isLogged,
-    loginRequest,
-    loginFailed,
+    registerRequest,
+    registerFailed,
     accessToken,
     refreshToken,
-  } = useSelector((store) => store.user);
-  const isValid = useMemo(() => form.email && form.password, [form]);
-  const handleChange = (e) => [
+  } = useSelector<IState, IUserState>((store) => store.user);
+  const isValid = useMemo(() => form.name && form.email && form.password, [
+    form,
+  ]);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => [
     setValue({ ...form, [e.target.name]: e.target.value }),
   ];
-  const handleIconClick = (e) => {
+  const handleIconClick = () => {
     setPasswordHidden(!isPasswordHidden);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isValid) {
-      dispatch(login(form.email, form.password));
+    if (form.name && form.email && form.password) {
+      dispatch(register(form.email, form.password, form.name));
     }
   };
+
   useEffect(() => {
     if (isLogged) {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      history.push(location?.state?.from || "/");
+      history.push("/profile");
     }
   }, [isLogged]);
   return (
     <section className={styles.container}>
-      <h2 className="text text_type_main-medium mb-6">Вход</h2>
-      {loginFailed && <p className={styles.errorMessage}>Произошла ошибка</p>}
+      <h2 className="text text_type_main-medium mb-6">Регистрация</h2>
+      {registerFailed && (
+        <p className={styles.errorMessage}>Произошла ошибка</p>
+      )}
       <form className={styles.form} onSubmit={handleSubmit}>
+        <fieldset className={styles.field}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={handleChange}
+            value={form.name}
+            name={"name"}
+            error={false}
+            errorText={"Ошибка"}
+          />
+        </fieldset>
         <fieldset className={styles.field}>
           <Input
             type={"email"}
@@ -56,7 +75,7 @@ export const Login = () => {
             value={form.email}
             name={"email"}
             error={false}
-            errorText={"Введите корректный email"}
+            errorText={"Ошибка"}
           />
         </fieldset>
         <fieldset className={styles.field}>
@@ -67,37 +86,31 @@ export const Login = () => {
             value={form.password}
             name={"password"}
             icon={isPasswordHidden ? "ShowIcon" : "HideIcon"}
-            onIconClick={handleIconClick}
             error={false}
             errorText={"Ошибка"}
+            onIconClick={handleIconClick}
           />
         </fieldset>
         <fieldset className={styles.button}>
-          <Button type="primary" size="medium" htmlType="submit">
-            {loginRequest ? "Загрузка..." : "Войти"}
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="medium"
+            disabled={!isValid}
+          >
+            {registerRequest ? "Загрузка..." : "Зарегестрироваться"}
           </Button>
         </fieldset>
       </form>
       <p className="text text_type_main-default text_color_inactive">
-        Вы новый пользователь?{" "}
+        Уже зарегистрированы?{" "}
         <Link
-          to="/register"
           className={
             styles.link + " text text_type_main-default text_color_accent"
           }
+          to="/login"
         >
-          Зарегестрироваться
-        </Link>
-      </p>
-      <p className="text text_type_main-default text_color_inactive">
-        Забыли пароль?{" "}
-        <Link
-          to="/forgot-password"
-          className={
-            styles.link + " text text_type_main-default text_color_accent"
-          }
-        >
-          Восстановить пароль
+          Войти
         </Link>
       </p>
     </section>

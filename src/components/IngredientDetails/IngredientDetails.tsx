@@ -1,14 +1,17 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { ICartState, IState } from "../../utils/types";
 import ingredientDetailsStyles from "./IngredientDetails.module.css";
 
 const IngredientDetails = () => {
-  const { id } = useParams();
-  const { ingredients } = useSelector((store) => store.cart);
+  const { id } = useParams<{ id: string }>();
+  const { ingredients } = useSelector<IState, ICartState>(
+    (store) => store.cart
+  );
   const currentIngredient = useMemo(() => {
     return ingredients?.find((item) => item._id === id);
-  }, [ingredients]);
+  }, [ingredients, id]);
   return currentIngredient ? (
     <div className={ingredientDetailsStyles.container}>
       <img

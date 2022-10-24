@@ -1,5 +1,6 @@
 import { baseUrl, request } from "../../utils/api";
 import { v4 as uuidv4 } from 'uuid';
+import React from "react";
 
 export const INGREDIENTS_REQUEST = 'INGREDIENTS_REQUEST';
 export const INGREDIENTS_SUCCESS = 'INGREDIENTS_SUCCESS';
@@ -30,7 +31,7 @@ export const getItems = () => dispatch => {
         });
 }
 
-export const makeOrder = (ingredients,accessToken) => dispatch => {
+export const makeOrder = (ingredients, accessToken) => dispatch => {
     const url = baseUrl + 'orders';
 
     dispatch({ type: ORDER_REQUEST })

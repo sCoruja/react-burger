@@ -17,12 +17,17 @@ import {
 import BurgerConstructorItem from "./BurgerConstructorItem";
 import Spinner from "../../ui/Spinner/Spinner";
 import { useHistory } from "react-router";
+import { ICartState, IState, IUserState } from "../../utils/types";
 const BurgerConstructor = () => {
-  const { isLogged, accessToken } = useSelector((store) => store.user);
+  const { isLogged, accessToken } = useSelector<IState, IUserState>(
+    (store) => store.user
+  );
   const history = useHistory();
-  const [modalOpened, setModalOpened] = React.useState(false);
+  const [modalOpened, setModalOpened] = React.useState<boolean>(false);
   const dispatch = useDispatch();
-  const { constructorItems, bun, order } = useSelector((store) => store.cart);
+  const { constructorItems, bun, order } = useSelector<IState, ICartState>(
+    (store) => store.cart
+  );
   const totalPrice = useMemo(() => {
     const bunPrice = bun ? bun?.price * 2 : 0;
     const price =
@@ -110,7 +115,7 @@ const BurgerConstructor = () => {
 
         <div className={constructorStyles.controls + " mt-10"}>
           <span className="price mr-10 text text_type_digits-medium">
-            {totalPrice} <CurrencyIcon />
+            {totalPrice} <CurrencyIcon type="primary" />
           </span>
           <Button
             type="primary"

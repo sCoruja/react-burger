@@ -1,9 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { FC } from "react";
 import IngridientCard from "../IngridientCard/IngridientCard";
 import ingridientsGroupStyles from "./IngridientsGroup.module.css";
 import { Link, useLocation } from "react-router-dom";
-const IngridientsGroup = ({ heading, items, refElement }) => {
+import { IIngridientsGroupProps } from "../../utils/types";
+
+const IngridientsGroup: FC<IIngridientsGroupProps> = ({
+  heading,
+  items,
+  refElement,
+}) => {
   const location = useLocation();
   return (
     <div className="mt-10">
@@ -26,10 +31,5 @@ const IngridientsGroup = ({ heading, items, refElement }) => {
       </div>
     </div>
   );
-};
-IngridientsGroup.propTypes = {
-  heading: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired,
-  refElement: PropTypes.object.isRequired,
 };
 export default IngridientsGroup;

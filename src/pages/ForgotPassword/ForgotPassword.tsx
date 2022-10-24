@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, FormEvent, useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPassword.module.css";
 import {
@@ -8,19 +8,21 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { forgotPassword } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
+import { IState, IUserState } from "../../utils/types";
 
 export const ForgotPassword = () => {
   const [form, setValue] = React.useState({ email: "" });
-  const { isLogged } = useSelector((store) => store.user);
+  const { isLogged, forgotPasswordRequest, forgotPasswordFailed } = useSelector<
+    IState,
+    IUserState
+  >((store) => store.user);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { forgotPasswordRequest, forgotPasswordFailed } = useSelector(
-    (store) => store.user
-  );
-  const handleChange = (e) => [
-    setValue({ ...form, [e.target.name]: e.target.value }),
-  ];
-  const handleSubmit = (e) => {
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (form.email) {
       dispatch(forgotPassword(form.email));
@@ -32,7 +34,7 @@ export const ForgotPassword = () => {
     if (isLogged) {
       history.push("/profile");
     }
-  }, [isLogged]);
+  }, [isLogged, history]);
   return (
     <section className={styles.container}>
       {forgotPasswordFailed && (

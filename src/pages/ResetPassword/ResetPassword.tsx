@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useMemo } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ResetPassword.module.css";
 import {
@@ -9,25 +9,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/actions/user";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { IState, IUserState } from "../../utils/types";
 
 export const ResetPassword = () => {
   const [form, setValue] = React.useState({ code: "", password: "" });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const isValid = useMemo(() => form.code && form.password, [form]);
-  const { isLogged } = useSelector((store) => store.user);
+  const { isLogged, resetPasswordRequest, resetPasswordFailed } = useSelector<
+    IState,
+    IUserState
+  >((store) => store.user);
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { resetPasswordRequest, resetPasswordFailed } = useSelector(
-    (store) => store.user
-  );
-  const handleChange = (e) => [
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => [
     setValue({ ...form, [e.target.name]: e.target.value }),
   ];
-  const handleIconClick = (e) => {
+  const handleIconClick = () => {
     setPasswordHidden(!isPasswordHidden);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid) {
       dispatch(resetPassword(form.password, form.code));
@@ -38,7 +39,7 @@ export const ResetPassword = () => {
     if (isLogged) {
       history.push("/profile");
     }
-  }, [isLogged]);
+  }, [isLogged, history]);
   return (
     <section className={styles.container}>
       <h2 className="text text_type_main-medium mb-6">Восстановление пароля</h2>

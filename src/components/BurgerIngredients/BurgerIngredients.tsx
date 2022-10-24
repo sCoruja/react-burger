@@ -1,52 +1,45 @@
-import React, {  useRef } from "react";
+import React, { useRef } from "react";
 import burgerIngriidentsStyles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsGroup from "../IngridientsGroup/IngridientsGroup";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  switchTab,
-} from "../../services/actions/cart";
+import { switchTab } from "../../services/actions/cart";
+import { ICartState, IState,IRefsType } from "../../utils/types";
+
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const {
-    ingredients,
-    ingredientsRequest,
-    currentTab,
-  } = useSelector((store) => store.cart);
+  const { ingredients, ingredientsRequest, currentTab } = useSelector<
+    IState,
+    ICartState
+  >((store) => store.cart);
 
   const buns = ingredients.filter((item) => item.type === "bun");
   const sauces = ingredients.filter((item) => item.type === "sauce");
   const main = ingredients.filter((item) => item.type === "main");
-  const rootRef = useRef();
-  const bunsRef = useRef();
-  const saucesRef = useRef();
-  const mainRef = useRef();
-  const refs = {
-    bun: {
-      tab: "bun",
-      ref: bunsRef,
-    },
-    sauce: {
-      tab: "sauce",
-      ref: saucesRef,
-    },
-    main: {
-      tab: "main",
-      ref: mainRef,
-    },
+  const rootRef = useRef<HTMLDivElement>(null);
+  const bunsRef = useRef<HTMLHeadingElement>(null);
+  const saucesRef = useRef<HTMLHeadingElement>(null);
+  const mainRef = useRef<HTMLHeadingElement>(null);
+  const refs: IRefsType = {
+    bun: bunsRef,
+    sauce: saucesRef,
+    main: mainRef,
   };
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     dispatch(switchTab(tab));
-    refs[tab].ref.current.scrollIntoView({ behavior: "smooth" });
+    refs[tab].current?.scrollIntoView({
+      behavior: "smooth",
+    });
   };
-  const handleScroll = (e) => {
-    const rootY = rootRef.current.getBoundingClientRect().y;
-    for (var key of Object.keys(refs)) {
-      const y = refs[key].ref.current.getBoundingClientRect().y - rootY;
-      if (y > 0 && y < rootY && currentTab !== refs[key].tab) {
-        dispatch(switchTab(refs[key].tab));
-      }
+  const handleScroll = () => {
+    const rootY = rootRef?.current?.getBoundingClientRect().y ?? 0;
+    for (let [key,value] of Object.entries(refs)) {
+      if(value){
+      const y = value.current?.getBoundingClientRect().y ?? 0- rootY;
+      if (y > 0 && y < rootY && currentTab !== key) {
+        dispatch(switchTab(key));
+      }}
     }
   };
 
@@ -85,19 +78,16 @@ const BurgerIngredients = () => {
           >
             <IngridientsGroup
               heading="Булки"
-              tab="bun"
               items={buns}
               refElement={bunsRef}
             />
             <IngridientsGroup
               heading="Соусы"
-              tab="sauce"
               items={sauces}
               refElement={saucesRef}
             />
             <IngridientsGroup
               heading="Начинки"
-              tab="main"
               items={main}
               refElement={mainRef}
             />

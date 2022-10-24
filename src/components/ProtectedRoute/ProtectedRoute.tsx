@@ -1,13 +1,13 @@
-import React from "react";
+import React, { FC } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Redirect, Route, useLocation } from "react-router";
-import { Login } from "../../pages";
-const ProtectedRoute = ({ children, path, exact }) => {
-  const isLogged = useSelector((store) => store.user.isLogged);
+import { Redirect, Route, RouteProps, useLocation } from "react-router";
+import { IState, IUserState } from "../../utils/types";
+const ProtectedRoute: FC<RouteProps> = ({ children, path, exact }) => {
+  const { isLogged } = useSelector<IState, IUserState>((store) => store.user);
   const location = useLocation();
   return (
-    <Route to={path} exact={exact}>
+    <Route path={path} exact={exact}>
       {isLogged ? (
         children
       ) : (

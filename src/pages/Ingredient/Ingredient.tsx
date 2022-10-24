@@ -1,7 +1,6 @@
 import React from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Ingredient.module.css";
-import {} from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientDetails from "../../components/IngredientDetails/IngredientDetails";
 
 export const Ingredient = () => {

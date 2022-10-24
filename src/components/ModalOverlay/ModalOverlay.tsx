@@ -1,9 +1,10 @@
-import PropTypes from "prop-types";
+import React, { FC, MouseEvent } from "react";
+import { IModalOverlayProps } from "../../utils/types";
 
 import modalOverlayStyles from "./ModalOverlay.module.css";
 
-const ModalOverlay = ({ onClick, children }) => {
-  const handleClick = (e) => {
+const ModalOverlay: FC<IModalOverlayProps> = ({ onClick, children }) => {
+  const handleClick = (e: MouseEvent) => {
     if (e.target === e.currentTarget) onClick();
   };
   return (
@@ -11,9 +12,5 @@ const ModalOverlay = ({ onClick, children }) => {
       {children}
     </div>
   );
-};
-ModalOverlay.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
 };
 export default ModalOverlay;

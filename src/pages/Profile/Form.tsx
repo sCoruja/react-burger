@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { FormEvent, MouseEvent, SyntheticEvent, useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
 import {
@@ -7,9 +7,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../services/actions/user";
+import { IState, IUserState } from "../../utils/types";
 
 export const Form = () => {
-  const { userName, email, accessToken } = useSelector((store) => store.user);
+  const { userName, email, accessToken } = useSelector<IState, IUserState>(
+    (store) => store.user
+  );
   const dispatch = useDispatch();
   const [isFormActive, setFormActive] = React.useState(false);
   const [form, setValue] = React.useState({
@@ -17,7 +20,7 @@ export const Form = () => {
     email: email,
     password: "",
   });
-  const handleSave = (e) => {
+  const handleSave = (e: FormEvent) => {
     e.preventDefault();
     const formData = {
       ...form,
@@ -26,7 +29,7 @@ export const Form = () => {
     dispatch(updateUser(accessToken, formData));
     setFormActive(false);
   };
-  const handleCancel = (e) => {
+  const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setValue({
       name: userName,
@@ -49,7 +52,7 @@ export const Form = () => {
           name={"name"}
           error={false}
           errorText={"Ошибка"}
-          icon={!isFormActive && "EditIcon"}
+          icon={!isFormActive ? "EditIcon" : undefined}
           disabled={!isFormActive}
           onIconClick={() => {
             setFormActive(true);
@@ -65,7 +68,7 @@ export const Form = () => {
           name={"email"}
           error={false}
           errorText={"Ошибка"}
-          icon={!isFormActive && "EditIcon"}
+          icon={!isFormActive ? "EditIcon" : undefined}
           disabled={!isFormActive}
           onIconClick={() => {
             setFormActive(true);
@@ -81,7 +84,7 @@ export const Form = () => {
           name={"name"}
           error={false}
           errorText={"Ошибка"}
-          icon={!isFormActive && "EditIcon"}
+          icon={!isFormActive ? "EditIcon" : undefined}
           disabled={!isFormActive}
           onIconClick={() => {
             setFormActive(true);

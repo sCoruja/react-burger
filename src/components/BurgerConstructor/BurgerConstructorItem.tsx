@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { FC, useRef } from "react";
 import PropTypes from "prop-types";
 import constructorStyles from "./BurgerConstructor.module.css";
 import {
@@ -11,10 +11,10 @@ import {
   removeIngredient,
   REPLACE_CONSTRUCTOR_ITEM,
 } from "../../services/actions/cart";
-import { ingridientType } from "../../utils/types";
-const BurgerConstructorItem = ({ item, index }) => {
+import { IBurgerConstructorItemProps } from "../../utils/types";
+const BurgerConstructorItem : FC<IBurgerConstructorItemProps> = ({ item, index }) => {
   const dispatch = useDispatch();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleDelete = () => {
     dispatch(removeIngredient(item.uuid));
@@ -25,7 +25,7 @@ const BurgerConstructorItem = ({ item, index }) => {
   });
   const [{ isHover }, dropRef] = useDrop({
     accept: "replace",
-    drop(item) {
+    drop(item:{index:number}) {
       dispatch({
         type: REPLACE_CONSTRUCTOR_ITEM,
         oldIndex: item.index,
@@ -44,18 +44,14 @@ const BurgerConstructorItem = ({ item, index }) => {
       draggable
       style={isHover ? { opacity: "0.5" } : {}}
     >
-      <DragIcon />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={item.name}
         price={item.price}
         thumbnail={item.image}
-        handleClose={() => handleDelete(index)}
+        handleClose={() => handleDelete()}
       />
     </div>
   );
-};
-BurgerConstructorItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  item: PropTypes.shape(ingridientType).isRequired,
 };
 export default BurgerConstructorItem;

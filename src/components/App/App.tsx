@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
-
 import "@ya.praktikum/react-developer-burger-ui-components";
 import {
   Home,
@@ -19,13 +18,16 @@ import { checkToken } from "../../utils/api";
 import { getItems } from "../../services/actions/cart";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+
+import { ILocationState, IState, IUserState } from "../../utils/types";
+
 function App() {
-  const location = useLocation();
+  const location = useLocation<ILocationState>();
   const history = useHistory();
   const background = location.state && location.state.background;
   const localAccessToken = localStorage.getItem("accessToken");
   const localRefreshToken = localStorage.getItem("refreshToken");
-  const { accessToken, refreshToken } = useSelector((store) => store.user);
+  const { accessToken, refreshToken } = useSelector<IState,IUserState>((store) => store.user);
   const dispatch = useDispatch();
   useEffect(() => {
     if (localAccessToken && checkToken(localAccessToken.split(" ")[1]))

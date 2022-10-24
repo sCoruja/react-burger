@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { MouseEvent, useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,12 +7,15 @@ import { Route, Switch, useHistory } from "react-router";
 import { Form } from "./Form";
 import { Orders } from "./Orders";
 import { NavLink } from "react-router-dom";
+import { IState, IUserState } from "../../utils/types";
 
 export const Profile = () => {
-  const { refreshToken, isLogged } = useSelector((store) => store.user);
+  const { refreshToken, isLogged } = useSelector<IState, IUserState>(
+    (store) => store.user
+  );
   const dispatch = useDispatch();
   const history = useHistory();
-  const handleLogout = (e) => {
+  const handleLogout = (e: MouseEvent) => {
     e.preventDefault();
     dispatch(logout(refreshToken));
     localStorage.clear();

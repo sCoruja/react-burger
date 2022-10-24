@@ -1,6 +1,6 @@
 import "./Spinner.scss";
-import PropTypes from "prop-types";
-const Spinner = ({ size }) => {
+import { FC } from "react";
+const Spinner: FC<{ size: "small" | "medium" | "large" }> = ({ size }) => {
   return (
     <svg className={"spinner spinner_size_" + size} viewBox="0 0 50 50">
       <circle
@@ -13,8 +13,5 @@ const Spinner = ({ size }) => {
       ></circle>
     </svg>
   );
-};
-Spinner.propType = {
-  size: PropTypes.oneOf(["small", "medium", "large"]).isRequired,
 };
 export default Spinner;
