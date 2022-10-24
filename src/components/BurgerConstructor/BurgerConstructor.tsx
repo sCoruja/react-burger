@@ -23,7 +23,7 @@ const BurgerConstructor = () => {
     (store) => store.user
   );
   const history = useHistory();
-  const [modalOpened, setModalOpened] = React.useState<boolean>(false);
+  const [modalOpened, setModalOpened] = React.useState(false);
   const dispatch = useDispatch();
   const { constructorItems, bun, order } = useSelector<IState, ICartState>(
     (store) => store.cart

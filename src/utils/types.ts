@@ -101,3 +101,6 @@ export interface IModalOverlayProps {
 export interface IOrderDetailsProps {
   identifier: number;
 }
+export interface IFormType{
+  [key:string]: string;
+}

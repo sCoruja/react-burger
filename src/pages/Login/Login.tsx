@@ -14,10 +14,10 @@ import {
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../services/actions/user";
-import { IState, IUserState } from "../../utils/types";
+import { IFormType, IState, IUserState } from "../../utils/types";
 
 export const Login = () => {
-  const [form, setValue] = React.useState({ email: "", password: "" });
+  const [form, setValue] = React.useState<IFormType>({ email: "", password: "" });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const history = useHistory();
   const location = useLocation<{ from: string }>();

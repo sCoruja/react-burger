@@ -9,10 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetPassword } from "../../services/actions/user";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { IState, IUserState } from "../../utils/types";
+import { IFormType, IState, IUserState } from "../../utils/types";
 
 export const ResetPassword = () => {
-  const [form, setValue] = React.useState({ code: "", password: "" });
+  const [form, setValue] = React.useState<IFormType>({ code: "", password: "" });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const isValid = useMemo(() => form.code && form.password, [form]);
   const { isLogged, resetPasswordRequest, resetPasswordFailed } = useSelector<

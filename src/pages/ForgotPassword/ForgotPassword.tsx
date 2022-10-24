@@ -8,10 +8,10 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { forgotPassword } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import { IState, IUserState } from "../../utils/types";
+import { IFormType, IState, IUserState } from "../../utils/types";
 
 export const ForgotPassword = () => {
-  const [form, setValue] = React.useState({ email: "" });
+  const [form, setValue] = React.useState<IFormType>({ email: "" });
   const { isLogged, forgotPasswordRequest, forgotPasswordFailed } = useSelector<
     IState,
     IUserState

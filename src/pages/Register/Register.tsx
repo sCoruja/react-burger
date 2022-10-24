@@ -8,10 +8,10 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { register } from "../../services/actions/user";
 import { useDispatch, useSelector } from "react-redux";
-import { IState, IUserState } from "../../utils/types";
+import { IFormType, IState, IUserState } from "../../utils/types";
 
 export const Register = () => {
-  const [form, setValue] = React.useState({
+  const [form, setValue] = React.useState<IFormType>({
     name: "",
     email: "",
     password: "",
