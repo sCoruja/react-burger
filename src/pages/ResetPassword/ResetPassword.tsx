@@ -5,20 +5,22 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../../services/actions/user";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { resetPasswordThunk } from "../../services/actions/user";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { IFormType, IState, IUserState } from "../../utils/types";
+import { IFormType } from "../../services/types";
 
 export const ResetPassword = () => {
-  const [form, setValue] = React.useState<IFormType>({ code: "", password: "" });
+  const [form, setValue] = React.useState<IFormType>({
+    code: "",
+    password: "",
+  });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const isValid = useMemo(() => form.code && form.password, [form]);
-  const { isLogged, resetPasswordRequest, resetPasswordFailed } = useSelector<
-    IState,
-    IUserState
-  >((store) => store.user);
+  const { isLogged, resetPasswordRequest, resetPasswordFailed } = useSelector(
+    (store) => store.user
+  );
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ export const ResetPassword = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid) {
-      dispatch(resetPassword(form.password, form.code));
+      dispatch(resetPasswordThunk(form.password, form.code));
     }
   };
 

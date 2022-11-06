@@ -2,16 +2,18 @@ import React, { useRef } from "react";
 import burgerIngriidentsStyles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientsGroup from "../IngridientsGroup/IngridientsGroup";
-import { useDispatch, useSelector } from "react-redux";
 import { switchTab } from "../../services/actions/cart";
-import { ICartState, IState,IRefsType } from "../../utils/types";
+import { useDispatch, useSelector } from "../../services/hooks";
+
+type TRefs = {
+  [key: string]: React.MutableRefObject<HTMLElement | null>;
+};
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const { ingredients, ingredientsRequest, currentTab } = useSelector<
-    IState,
-    ICartState
-  >((store) => store.cart);
+  const { ingredients, ingredientsRequest, currentTab } = useSelector(
+    (store) => store.cart
+  );
 
   const buns = ingredients.filter((item) => item.type === "bun");
   const sauces = ingredients.filter((item) => item.type === "sauce");
@@ -20,7 +22,7 @@ const BurgerIngredients = () => {
   const bunsRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);
   const mainRef = useRef<HTMLHeadingElement>(null);
-  const refs: IRefsType = {
+  const refs: TRefs = {
     bun: bunsRef,
     sauce: saucesRef,
     main: mainRef,
@@ -34,12 +36,13 @@ const BurgerIngredients = () => {
   };
   const handleScroll = () => {
     const rootY = rootRef?.current?.getBoundingClientRect().y ?? 0;
-    for (let [key,value] of Object.entries(refs)) {
-      if(value){
-      const y = value.current?.getBoundingClientRect().y ?? 0- rootY;
-      if (y > 0 && y < rootY && currentTab !== key) {
-        dispatch(switchTab(key));
-      }}
+    for (let [key, value] of Object.entries(refs)) {
+      if (value) {
+        const y = value.current?.getBoundingClientRect().y ?? 0 - rootY;
+        if (y > 0 && y < rootY && currentTab !== key) {
+          dispatch(switchTab(key));
+        }
+      }
     }
   };
 

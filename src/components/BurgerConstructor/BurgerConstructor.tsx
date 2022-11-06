@@ -8,26 +8,22 @@ import {
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import {
-  addIngredient,
-  clearOrder,
-  makeOrder,
+  addIngredientAction,
+  clearOrderAction,
+  makeOrderThunk,
 } from "../../services/actions/cart";
 import BurgerConstructorItem from "./BurgerConstructorItem";
 import Spinner from "../../ui/Spinner/Spinner";
 import { useHistory } from "react-router";
-import { ICartState, IState, IUserState } from "../../utils/types";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { TIngredient } from "../../services/types/data";
 const BurgerConstructor = () => {
-  const { isLogged, accessToken } = useSelector<IState, IUserState>(
-    (store) => store.user
-  );
+  const { isLogged, accessToken } = useSelector((store) => store.user);
   const history = useHistory();
   const [modalOpened, setModalOpened] = React.useState(false);
   const dispatch = useDispatch();
-  const { constructorItems, bun, order } = useSelector<IState, ICartState>(
-    (store) => store.cart
-  );
+  const { constructorItems, bun, order } = useSelector((store) => store.cart);
   const totalPrice = useMemo(() => {
     const bunPrice = bun ? bun?.price * 2 : 0;
     const price =
@@ -39,8 +35,8 @@ const BurgerConstructor = () => {
   }, [constructorItems, bun]);
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(item) {
-      dispatch(addIngredient(item));
+    drop(item: TIngredient) {
+      dispatch(addIngredientAction(item));
     },
   });
 
@@ -48,14 +44,14 @@ const BurgerConstructor = () => {
     setModalOpened(!modalOpened);
   };
   const closeModal = () => {
-    dispatch(clearOrder());
+    dispatch(clearOrderAction());
     toggleModal();
   };
   const handleClick = () => {
     if (isLogged) {
       const ingredients = [...constructorItems.map((item) => item._id)];
       if (bun?._id) ingredients.push(bun._id);
-      dispatch(makeOrder(ingredients, accessToken));
+      dispatch(makeOrderThunk(ingredients, accessToken));
       toggleModal();
     } else {
       history.push("/login");

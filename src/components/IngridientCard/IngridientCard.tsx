@@ -3,15 +3,17 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingridientCardStyles from "./IngridientCard.module.css";
-import { ICartState, IIngridientCardProps, IState } from "../../utils/types";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
 import { FC } from "react";
+import { TIngredient } from "../../services/types/data";
+import { useSelector } from "../../services/hooks";
 
-const IngridientCard: FC<IIngridientCardProps> = ({ data }) => {
-  const { bun, constructorItems } = useSelector<IState, ICartState>(
-    (store) => store.cart
-  );
+type TIngridientCardProps = {
+  data: TIngredient;
+};
+
+const IngridientCard: FC<TIngridientCardProps> = ({ data }) => {
+  const { bun, constructorItems } = useSelector((store) => store.cart);
   const count =
     data.type === "bun"
       ? bun?._id === data._id

@@ -1,18 +1,15 @@
-import React, { FormEvent, MouseEvent, SyntheticEvent, useEffect } from "react";
+import React, { FormEvent, SyntheticEvent, useEffect } from "react";
 import "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../services/actions/user";
-import { IState, IUserState } from "../../utils/types";
+import { updateUserThunk } from "../../services/actions/user";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 export const Form = () => {
-  const { userName, email, accessToken } = useSelector<IState, IUserState>(
-    (store) => store.user
-  );
+  const { userName, email, accessToken } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const [isFormActive, setFormActive] = React.useState(false);
   const [form, setValue] = React.useState({
@@ -26,7 +23,7 @@ export const Form = () => {
       ...form,
       password: form.password ? form.password : undefined,
     };
-    dispatch(updateUser(accessToken, formData));
+    dispatch(updateUserThunk(accessToken, formData));
     setFormActive(false);
   };
   const handleCancel = (e: SyntheticEvent) => {

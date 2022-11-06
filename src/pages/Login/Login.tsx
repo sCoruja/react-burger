@@ -12,12 +12,15 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../services/actions/user";
-import { IFormType, IState, IUserState } from "../../utils/types";
+import { IFormType } from "../../services/types";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { loginThunk } from "../../services/actions/user";
 
 export const Login = () => {
-  const [form, setValue] = React.useState<IFormType>({ email: "", password: "" });
+  const [form, setValue] = React.useState<IFormType>({
+    email: "",
+    password: "",
+  });
   const [isPasswordHidden, setPasswordHidden] = React.useState(true);
   const history = useHistory();
   const location = useLocation<{ from: string }>();
@@ -28,7 +31,7 @@ export const Login = () => {
     loginFailed,
     accessToken,
     refreshToken,
-  } = useSelector<IState, IUserState>((store) => store.user);
+  } = useSelector((store) => store.user);
   const isValid = useMemo(() => form.email && form.password, [form]);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => [
     setValue({ ...form, [e.target.name]: e.target.value }),
@@ -39,7 +42,7 @@ export const Login = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid) {
-      dispatch(login(form.email, form.password));
+      dispatch(loginThunk(form.email, form.password));
     }
   };
   useEffect(() => {

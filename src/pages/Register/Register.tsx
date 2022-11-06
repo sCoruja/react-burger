@@ -6,9 +6,9 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory } from "react-router-dom";
-import { register } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
-import { IFormType, IState, IUserState } from "../../utils/types";
+import { registerThunk } from "../../services/actions/user";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { IFormType } from "../../services/types";
 
 export const Register = () => {
   const [form, setValue] = React.useState<IFormType>({
@@ -25,7 +25,7 @@ export const Register = () => {
     registerFailed,
     accessToken,
     refreshToken,
-  } = useSelector<IState, IUserState>((store) => store.user);
+  } = useSelector((store) => store.user);
   const isValid = useMemo(() => form.name && form.email && form.password, [
     form,
   ]);
@@ -38,7 +38,7 @@ export const Register = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (form.name && form.email && form.password) {
-      dispatch(register(form.email, form.password, form.name));
+      dispatch(registerThunk(form.email, form.password, form.name));
     }
   };
 

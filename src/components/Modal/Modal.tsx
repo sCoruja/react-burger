@@ -3,9 +3,13 @@ import React, { FC } from "react";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import modalStyles from "./Modal.module.css";
-import { IModalProps } from "../../utils/types";
 
-const Modal: FC<IModalProps> = ({ heading, children, onClose }) => {
+type TModalProps = {
+  heading?: string;
+  onClose: () => void;
+};
+
+const Modal: FC<TModalProps> = ({ heading, children, onClose }) => {
   const modalRoot = document.getElementById("react-modals");
   React.useEffect(() => {
     const handleEscapePress = (e: KeyboardEvent) => {

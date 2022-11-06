@@ -1,23 +1,31 @@
 import React, { FC, useRef } from "react";
-import PropTypes from "prop-types";
 import constructorStyles from "./BurgerConstructor.module.css";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
 import {
-  removeIngredient,
-  REPLACE_CONSTRUCTOR_ITEM,
+  removeIngredientAction,
+  replaceIngredientAction,
 } from "../../services/actions/cart";
-import { IBurgerConstructorItemProps } from "../../utils/types";
-const BurgerConstructorItem : FC<IBurgerConstructorItemProps> = ({ item, index }) => {
+import { TIngredient } from "../../services/types/data";
+import { useDispatch } from "../../services/hooks";
+
+type TBurgerConstructorItemProps = {
+  item: TIngredient;
+  index: number;
+};
+
+const BurgerConstructorItem: FC<TBurgerConstructorItemProps> = ({
+  item,
+  index,
+}) => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
   const handleDelete = () => {
-    dispatch(removeIngredient(item.uuid));
+    dispatch(removeIngredientAction(item.uuid));
   };
   const [, drag] = useDrag({
     type: "replace",
@@ -25,12 +33,8 @@ const BurgerConstructorItem : FC<IBurgerConstructorItemProps> = ({ item, index }
   });
   const [{ isHover }, dropRef] = useDrop({
     accept: "replace",
-    drop(item:{index:number}) {
-      dispatch({
-        type: REPLACE_CONSTRUCTOR_ITEM,
-        oldIndex: item.index,
-        newIndex: index,
-      });
+    drop(item: { index: number }) {
+      dispatch(replaceIngredientAction(item.index, index));
     },
     collect: (monitor) => ({
       isHover: monitor.isOver(),

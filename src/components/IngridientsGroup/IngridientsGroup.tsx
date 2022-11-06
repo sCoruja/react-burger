@@ -2,9 +2,15 @@ import React, { FC } from "react";
 import IngridientCard from "../IngridientCard/IngridientCard";
 import ingridientsGroupStyles from "./IngridientsGroup.module.css";
 import { Link, useLocation } from "react-router-dom";
-import { IIngridientsGroupProps } from "../../utils/types";
+import { TIngredient } from "../../services/types/data";
 
-const IngridientsGroup: FC<IIngridientsGroupProps> = ({
+type TIngridientsGroupProps = {
+  heading: string;
+  items: Array<TIngredient>;
+  refElement: React.MutableRefObject<HTMLHeadingElement | null>;
+};
+
+const IngridientsGroup: FC<TIngridientsGroupProps> = ({
   heading,
   items,
   refElement,

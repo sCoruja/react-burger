@@ -6,16 +6,15 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory } from "react-router-dom";
-import { forgotPassword } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
-import { IFormType, IState, IUserState } from "../../utils/types";
+import { IFormType } from "../../services/types";
+import { forgotPasswordThunk } from "../../services/actions/user";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 export const ForgotPassword = () => {
   const [form, setValue] = React.useState<IFormType>({ email: "" });
-  const { isLogged, forgotPasswordRequest, forgotPasswordFailed } = useSelector<
-    IState,
-    IUserState
-  >((store) => store.user);
+  const { isLogged, forgotPasswordRequest, forgotPasswordFailed } = useSelector(
+    (store) => store.user
+  );
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -25,7 +24,7 @@ export const ForgotPassword = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (form.email) {
-      dispatch(forgotPassword(form.email));
+      dispatch(forgotPasswordThunk(form.email));
       history.push("/reset-password");
     }
   };

@@ -11,35 +11,35 @@ import {
   Profile,
 } from "../../pages";
 import AppHeader from "../AppHeader/AppHeader";
-import { getUser, resfreshToken } from "../../services/actions/user";
-import { useDispatch, useSelector } from "react-redux";
+import { getUserThunk, resfreshTokenThunk } from "../../services/actions/user";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import { checkToken } from "../../utils/api";
-import { getItems } from "../../services/actions/cart";
+import { checkToken } from "../../services/api";
+import { getIngredientsThunk } from "../../services/actions/cart";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
-import { ILocationState, IState, IUserState } from "../../utils/types";
+import { ILocationState } from "../../services/types";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 function App() {
   const location = useLocation<ILocationState>();
   const history = useHistory();
   const background = location.state && location.state.background;
-  const localAccessToken = localStorage.getItem("accessToken");
-  const localRefreshToken = localStorage.getItem("refreshToken");
-  const { accessToken, refreshToken } = useSelector<IState,IUserState>((store) => store.user);
+  const localAccessToken = localStorage.getItem("accessToken") || "";
+  const localRefreshToken = localStorage.getItem("refreshToken") || "";
+  const { accessToken, refreshToken } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   useEffect(() => {
     if (localAccessToken && checkToken(localAccessToken.split(" ")[1]))
-      dispatch(resfreshToken(localRefreshToken));
-    else dispatch(getUser(localAccessToken, localRefreshToken));
+      dispatch(resfreshTokenThunk(localRefreshToken));
+    else dispatch(getUserThunk(localAccessToken, localRefreshToken));
   }, [dispatch, localAccessToken, localRefreshToken]);
   useEffect(() => {
-    if (accessToken) dispatch(getUser(accessToken, refreshToken));
+    if (accessToken) dispatch(getUserThunk(accessToken, refreshToken));
   }, [accessToken, dispatch, refreshToken]);
 
   useEffect(() => {
-    dispatch(getItems());
+    dispatch(getIngredientsThunk());
   }, [dispatch]);
   return (
     <>
