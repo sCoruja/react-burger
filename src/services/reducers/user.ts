@@ -179,6 +179,8 @@ export const userReducer = (state = initialState, action: TUserActions) => {
         isLogged: true,
         userName: action.data.user.name,
         email: action.data.user.email,
+        accessToken: action.accessToken,
+        refreshToken: action.refreshToken,
       };
     }
     case GET_USER_FAILED: {

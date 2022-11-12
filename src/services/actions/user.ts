@@ -96,6 +96,8 @@ export interface IGetUserAction {
 export interface IGetUserSuccessAction {
   readonly type: typeof GET_USER_SUCCESS;
   readonly data: TUserResponse;
+  readonly accessToken: string;
+  readonly refreshToken: string;
 }
 export interface IGetUserFailedAction {
   readonly type: typeof GET_USER_FAILED;
@@ -153,7 +155,7 @@ export const forgotPasswordAction = (): IForgotPasswordAction => ({
   type: FORGOT_PWD_REQUEST,
 });
 export const forgotPasswordSuccessAction = (
-  data: any
+  data: TAuthenticationResponse
 ): IForgotPasswordSuccessAction => ({
   type: FORGOT_PWD_SUCCESS,
   data: data,
@@ -228,10 +230,12 @@ export const getUserAction = (): IGetUserAction => ({
   type: GET_USER_REQUEST,
 });
 export const getUserSuccessAction = (
-  data: TUserResponse
+  data: TUserResponse, accessToken: string, refreshToken:string
 ): IGetUserSuccessAction => ({
   type: GET_USER_SUCCESS,
-  data: data,
+  data,
+  accessToken,
+  refreshToken
 });
 export const getUserFailedAction = (
   data: TRequestErrorExeption
@@ -411,7 +415,7 @@ export const getUserThunk: AppThunk = (
     },
   })
     .then((data) => {
-      dispatch(getUserSuccessAction(data));
+      dispatch(getUserSuccessAction(data, accessToken, refreshToken));
     })
     .catch((e) => {
       dispatch(getUserFailedAction(e));

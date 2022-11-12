@@ -50,7 +50,7 @@ const BurgerConstructor = () => {
   const handleClick = () => {
     if (isLogged) {
       const ingredients = [...constructorItems.map((item) => item._id)];
-      if (bun?._id) ingredients.push(bun._id);
+      if (bun?._id) ingredients.push(bun._id, bun._id);
       dispatch(makeOrderThunk(ingredients, accessToken));
       toggleModal();
     } else {

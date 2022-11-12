@@ -20,6 +20,9 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 import { ILocationState } from "../../services/types";
 import { useDispatch, useSelector } from "../../services/hooks";
+import { Feed } from "../../pages/Feed/Feed";
+import { OrderPage } from "../../pages/OrderPage/OrderPage";
+import { Order } from "../Order/Order";
 
 function App() {
   const location = useLocation<ILocationState>();
@@ -63,22 +66,51 @@ function App() {
         <Route path="/ingredients/:id" exact={true}>
           <Ingredient />
         </Route>
+        <ProtectedRoute path="/profile/orders/:id">
+          <OrderPage/>
+        </ProtectedRoute>
         <ProtectedRoute path="/profile">
           <Profile />
         </ProtectedRoute>
+        <Route path="/feed" exact={true}>
+          <Feed />
+        </Route>
+        <Route path="/feed/:id">
+          <OrderPage/>
+        </Route>
       </Switch>
 
       {background && (
-        <Route path="/ingredients/:id" exact={true}>
-          <Modal
-            onClose={() => {
-              history.push("/");
-            }}
-            heading="Детали ингридиента"
-          >
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <>
+          <Route path="/ingredients/:id" exact={true}>
+            <Modal
+              onClose={() => {
+                history.push("/");
+              }}
+              heading="Детали ингридиента"
+            >
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id" exact={true}>
+            <Modal
+              onClose={() => {
+                history.push("/feed");
+              }}
+            >
+              <Order />
+            </Modal>
+          </Route>
+          <Route path="/profile/orders/:id" exact={true}>
+            <Modal
+              onClose={() => {
+                history.push("/profile/orders");
+              }}
+            >
+              <Order />
+            </Modal>
+          </Route>
+        </>
       )}
     </>
   );

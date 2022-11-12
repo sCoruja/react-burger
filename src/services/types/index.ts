@@ -6,6 +6,10 @@ import { ThunkAction } from "redux-thunk";
 import { TCartActions } from "../actions/cart";
 import { TUserActions } from "../actions/user";
 import { TIngredient, TOrder } from "./data";
+import { TWSFeedActions } from "../actions/feed";
+import { TWSFeedState } from "../reducers/feed";
+import { TWSProfileActions } from "../actions/profile";
+import { TWSProfileState } from "../reducers/profile";
 
 export const ingridientType = {
   image: PropTypes.string.isRequired,
@@ -67,9 +71,20 @@ export interface IFormType {
 // При таком определении типа, тип редьюсера user определяется как never
 // export type RootState = ReturnType<typeof store.getState>;
 
-export type RootState = { cart: ICartState; user: IUserState };
+export type RootState = {
+  cart: ICartState;
+  user: IUserState;
+  feed: TWSFeedState;
+  profile: TWSProfileState;
+};
 
-type TApplicationActions = TCartActions | TUserActions;
+export type TApplicationActions =
+  | TCartActions
+  | TUserActions
+  | TWSFeedActions
+  | TWSProfileActions;
+  
+export type TWSActionsTypes = { [key: string]: TWSFeedActions };
 
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>

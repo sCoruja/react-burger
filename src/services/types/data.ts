@@ -50,3 +50,18 @@ export type TIngredient = {
   __v: number;
   uuid: string;
 };
+export type TBurgerOrder = {
+  ingredients: ReadonlyArray<string>;
+  name: string;
+  _id: string;
+  status: string | "created" | "pending" | "done";
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+};
+export type TOrderResponse = {
+  success: boolean;
+  orders: ReadonlyArray<TBurgerOrder>;
+  total: number;
+  totalToday: number;
+};
