@@ -17,11 +17,12 @@ export const Order = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { ingredients } = useSelector((store) => store.cart);
+  const {isLogged} = useSelector(store=>store.user)
   const { orders } = useSelector((store) =>
     location.pathname.includes("profile") ? store.profile : store.feed
   );
   useEffect(() => {
-    if (!orders.length) {
+    if (!orders?.length&&isLogged) {
       const wsAction = location.pathname.includes("profile")
         ? startProfileConnectionAction
         : startFeedConnectionAction;
@@ -33,8 +34,8 @@ export const Order = () => {
         wsCloseAction();
       };
     }
-  }, []);
-  const order = useMemo(() => orders.find((order) => order._id === id), [
+  }, [isLogged]);
+  const order = useMemo(() => orders?.find((order) => order._id === id), [
     orders,
   ]);
   const totalPrice = useMemo(
@@ -55,7 +56,7 @@ export const Order = () => {
         : "Создан",
     [orders]
   );
-  const ordersSet = new Set(order?.ingredients);
+  const ordersSet = useMemo(() => new Set(order?.ingredients), [orders]);
   return order ? (
     <div className={orderStyles.order}>
       <p

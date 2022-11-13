@@ -12,7 +12,7 @@ type FeedItemProps = {
 export const FeedItem: FC<FeedItemProps> = ({ order, withStatus = false }) => {
   const date = convertTime(order.createdAt);
   const { ingredients } = useSelector((store) => store.cart);
-  const ingredientsSet = Array.from(new Set(order.ingredients))
+  const ingredientsSet = Array.from(new Set(order.ingredients));
   const totalPrice = order.ingredients.reduce((acc, item) => {
     const ingredient = ingredients.find((i) => i._id === item);
     return acc + (ingredient ? ingredient.price : 0);
@@ -51,7 +51,7 @@ export const FeedItem: FC<FeedItemProps> = ({ order, withStatus = false }) => {
             const ingredient = ingredients.find((i) => i._id === ingr);
             return index < 6 ? (
               ingredientsSet.length > 6 && index === 5 ? (
-                <div className={feedStyles.imageCounter}>
+                <div className={feedStyles.imageCounter} key={index}>
                   <div className={feedStyles.imageBorder}>
                     <span className="text text_color_primary text_type_digits-default">
                       +{ingredientsSet.length - 6}
@@ -64,7 +64,7 @@ export const FeedItem: FC<FeedItemProps> = ({ order, withStatus = false }) => {
                   </div>
                 </div>
               ) : (
-                <div className={feedStyles.imageBorder}>
+                <div className={feedStyles.imageBorder} key={index}>
                   <img
                     src={ingredient?.image_mobile}
                     alt={ingredient?.name}

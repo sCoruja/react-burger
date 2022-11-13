@@ -28,7 +28,9 @@ export const Feed = () => {
       <div className={feedStyles.content}>
         <div className={feedStyles.feed}>
           {orders.map((order) => (
-            <Link className={feedStyles.link}
+            <Link
+              className={feedStyles.link}
+              key={order._id}
               to={{
                 pathname: `/feed/${order._id}`,
                 state: { background: location },
@@ -43,8 +45,11 @@ export const Feed = () => {
             <div className={feedStyles.column}>
               <h3 className="text text_type_main-medium mb-6">Готовы:</h3>
               <ul className={feedStyles.list}>
-                {ready.map((order) => (
-                  <li className="text text_color_success text_type_digits-default">
+                {ready.map((order, index) => (
+                  <li
+                    className="text text_color_success text_type_digits-default"
+                    key={index}
+                  >
                     {order.number}
                   </li>
                 ))}
@@ -53,8 +58,11 @@ export const Feed = () => {
             <div className={feedStyles.column}>
               <h3 className="text text_type_main-medium mb-6">В работе:</h3>
               <ul className={feedStyles.list}>
-                {pending.map((order) => (
-                  <li className="text text_color_primary text_type_digits-default">
+                {pending.map((order, index) => (
+                  <li
+                    className="text text_color_primary text_type_digits-default"
+                    key={index}
+                  >
                     {order.number}
                   </li>
                 ))}

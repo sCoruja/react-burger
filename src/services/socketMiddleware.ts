@@ -1,4 +1,3 @@
-// socketMiddleware.ts
 import type { Middleware, MiddlewareAPI } from "redux";
 import {
   IClosedFeedConnectionAction,
@@ -16,7 +15,7 @@ import {
 } from "./actions/profile";
 
 import type { TApplicationActions, AppDispatch, RootState } from "./types";
-import { TBurgerOrder, TOrderResponse } from "./types/data";
+import {  TOrderResponse } from "./types/data";
 
 type wsActionsType = {
   wsInit: () => IStartFeedConnectionAction | IStartProfileConnectionAction;

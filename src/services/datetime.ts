@@ -1,11 +1,12 @@
 export const convertTime = (stringDate: string) => {
   const date = new Date(stringDate);
   const current = new Date();
+  const hoursAgo = (Number(current) - Number(date)) / 1000 / 3600;
   const daysAgo =
-    current.getDay() -
-    date.getDay() +
-    (current.getMonth() - date.getMonth()) * 31 +
-    (current.getFullYear() - date.getFullYear()) * 365;
+    hoursAgo < current.getHours() + current.getMinutes()/60
+      ? Math.floor((Number(current) - Number(date)) / 1000 / 3600 / 24)
+      : Math.floor((Number(current) - Number(date)) / 1000 / 3600 / 24) + 1;
+
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const offset =

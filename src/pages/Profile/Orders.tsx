@@ -27,6 +27,7 @@ export const Orders = () => {
         .map((order) => (
           <Link
             className={profileStyles.orderLink}
+            key={order._id}
             to={{
               pathname: `${location.pathname}/${order._id}`,
               state: { background: location },

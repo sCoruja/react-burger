@@ -1,7 +1,6 @@
 import React, {
   ChangeEvent,
   FormEvent,
-  MouseEvent,
   useEffect,
   useMemo,
 } from "react";

@@ -5,21 +5,12 @@ import { rootReducer } from "./reducers";
 import { compose } from "redux";
 import { socketMiddleware } from "./socketMiddleware";
 import {
-  WS_FEED_CONNECTION_CLOSED,
-  WS_FEED_CONNECTION_ERROR,
-  WS_FEED_CONNECTION_START,
-  WS_FEED_CONNECTION_SUCCESS,
-  WS_FEED_GET_MESSAGE,
-  WS_FEED_SEND_MESSAGE,
-} from "./constants";
-import {
   closeFeedConnectionAction,
   errorFeedConnectionAction,
   getFeedMessageAction,
   startFeedConnectionAction,
   successFeedConnectionAction,
 } from "./actions/feed";
-import { TWSActionsTypes } from "./types";
 import {
   closeProfileConnectionAction,
   errorProfileConnectionAction,

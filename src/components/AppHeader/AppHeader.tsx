@@ -6,8 +6,9 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 const AppHeader = () => {
+  const location = useLocation();
   return (
     <header className={headerStyles.header + " pb-4 pt-4"}>
       <nav className={headerStyles.nav}>
@@ -19,7 +20,9 @@ const AppHeader = () => {
               activeClassName={`text ${headerStyles.link} ${headerStyles.active} `}
               exact={true}
             >
-              <BurgerIcon type="primary" />
+              <BurgerIcon
+                type={location.pathname === "/" ? "primary" : "secondary"}
+              />
               <span className="ml-2">Конструктор</span>
             </NavLink>
           </li>
@@ -30,20 +33,24 @@ const AppHeader = () => {
               activeClassName={`text ${headerStyles.link} ${headerStyles.active} `}
               exact={true}
             >
-              <ListIcon type="secondary" />
+              <ListIcon type={location.pathname === "/feed" ? "primary" : "secondary"} />
               <span className="ml-2">Лента заказов</span>
             </NavLink>
           </li>
         </ul>
       </nav>
-      <Logo />
+      <Link to="/">
+        <Logo />
+      </Link>
       <div className={headerStyles.logo}></div>
       <NavLink
         className={headerStyles.link + " text text_color_inactive"}
         activeClassName={`${headerStyles.link} ${headerStyles.active} text `}
         to="/profile"
       >
-        <ProfileIcon type="secondary" />
+        <ProfileIcon
+          type={location.pathname === "/profile" ? "primary" : "secondary"}
+        />
         <span className="ml-2">Личный кабинет</span>
       </NavLink>
     </header>
