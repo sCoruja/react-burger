@@ -17,12 +17,12 @@ export const Order = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { ingredients } = useSelector((store) => store.cart);
-  const {isLogged} = useSelector(store=>store.user)
+  const { isLogged } = useSelector((store) => store.user);
   const { orders } = useSelector((store) =>
     location.pathname.includes("profile") ? store.profile : store.feed
   );
   useEffect(() => {
-    if (!orders?.length&&isLogged) {
+    if (!orders?.length && isLogged) {
       const wsAction = location.pathname.includes("profile")
         ? startProfileConnectionAction
         : startFeedConnectionAction;
@@ -82,7 +82,7 @@ export const Order = () => {
           const ingredient = ingredients.find((i) => i._id === ingr);
           const count = order.ingredients.filter((i) => i === ingr).length;
           return (
-            <div className={orderStyles.ingredientRow}>
+            <div className={orderStyles.ingredientRow} key={ingredient?._id}>
               <div className={orderStyles.imageBorder}>
                 <img
                   src={ingredient?.image_mobile}
@@ -116,5 +116,13 @@ export const Order = () => {
         </span>
       </div>
     </div>
-  ) : null;
+  ) : (
+    <div className={orderStyles.order}>
+      <p
+        className={`text text_color_primary text_type_main-medium mb-10 ${orderStyles.number}`}
+      >
+        Загрузка...
+      </p>
+    </div>
+  );
 };
