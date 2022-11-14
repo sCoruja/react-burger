@@ -18,17 +18,18 @@ export const Order = () => {
   const dispatch = useDispatch();
   const { ingredients } = useSelector((store) => store.cart);
   const { isLogged } = useSelector((store) => store.user);
+  const isProfilePage = location.pathname.includes("profile");
   const { orders } = useSelector((store) =>
-    location.pathname.includes("profile") ? store.profile : store.feed
+    isProfilePage ? store.profile : store.feed
   );
   useEffect(() => {
-    if (!orders?.length && isLogged) {
-      const wsAction = location.pathname.includes("profile")
+    if (!orders?.length && (isLogged || !isProfilePage)) {
+      const wsAction = isProfilePage
         ? startProfileConnectionAction
         : startFeedConnectionAction;
       dispatch(wsAction());
       return () => {
-        const wsCloseAction = location.pathname.includes("profile")
+        const wsCloseAction = isProfilePage
           ? closeProfileConnectionAction
           : closeFeedConnectionAction;
         wsCloseAction();
