@@ -87,7 +87,7 @@ function App() {
               onClose={() => {
                 history.push("/");
               }}
-              heading="Детали ингридиента"
+              heading="Детали ингредиента"
             >
               <IngredientDetails />
             </Modal>

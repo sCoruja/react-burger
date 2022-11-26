@@ -6,7 +6,7 @@ import IngredientDetails from "../../components/IngredientDetails/IngredientDeta
 export const Ingredient = () => {
   return (
     <div className={styles.container}>
-      <h2 className="text text_type_main-large">Детали ингридиента</h2>
+      <h2 className="text text_type_main-large">Детали ингредиента</h2>
       <IngredientDetails />
     </div>
   );
