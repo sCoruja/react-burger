@@ -80,7 +80,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case RESET_PWD_SUCCESS: {
       return {
         ...state,
-        resetPasswordRequest: true,
+        resetPasswordRequest: false,
       };
     }
     case RESET_PWD_FAILED: {
@@ -222,7 +222,7 @@ export const userReducer = (state = initialState, action: TUserActions) => {
     case REFRESH_TOKEN_SUCCESS: {
       return {
         ...state,
-        updateUserRequest: false,
+        refreshTokenRequest: false,
         accessToken: action.data.accessToken,
         refreshToken: action.data.refreshToken,
       };
