@@ -7,6 +7,7 @@
 ## Что использовалось
 
 - HTML/CSS/JS
+- TypeScript
 - React / Redux / React router
 - Jest / Cypress 
 
